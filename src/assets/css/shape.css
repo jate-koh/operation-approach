@@ -1,0 +1,40 @@
+
+@layer components {
+
+    .placeholder {
+        @apply bg-transparent;
+        @apply rounded-full;
+        @apply flex text-center items-center justify-center;
+    }
+
+    .circle {
+        @apply rounded-full;
+        @apply flex text-center items-center justify-center;
+    }
+
+    .rounded-square {
+        @apply rounded-[32px];
+        @apply flex text-center items-center justify-center;
+    }
+
+
+    .rounded-rectangle {
+        @apply min-h-[128px] rounded-[32px];
+        @apply flex text-center items-center justify-center;
+    }
+
+
+    .diamond {
+        @apply flex text-center items-center justify-center;
+        @apply transform rotate-45;
+    }
+
+    .diamond h1 {
+        @apply -rotate-45;
+    }
+
+    .horizontal-line {
+        @apply flex text-center items-center justify-center;
+    }
+
+}

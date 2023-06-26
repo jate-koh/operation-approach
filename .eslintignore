@@ -1,0 +1,28 @@
+# Folder
+node_modules/
+dist/
+public/
+
+# CSS
+*.css
+
+# Config
+.prettierrc.*
+.babelrc.*
+.babel.config.*
+.vite.config.*
+.eslintrc.*
+.eslintignore
+.gitignore
+tailwind.config.*
+postcss.config.*
+
+# Document
+*.md
+LICENSE
+
+# Package & Lock files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+package.json

@@ -1,0 +1,45 @@
+
+@layer components {
+    .dashie-sky {
+        color: theme('colors.sky.500');
+        /* @apply text-cyan-500; */
+    }
+    
+    .dashie-purple {
+        color: theme('colors.purple.900');
+        /* @apply text-purple-600; */
+    }
+    
+    .dashie-green {
+        color: theme('colors.green.500');
+        /* @apply text-green-600; */
+    }
+    
+    .dashie-red {
+        color: theme('colors.red.600');
+        /* @apply text-red-600; */
+    }
+    
+    .dashie-orange {
+        color: theme('colors.orange.600');
+        /* @apply text-orange-600; */
+    }
+    
+    .dashie-amber {
+        color: theme('colors.amber.300');
+        /* @apply text-amber-300; */
+    }
+}
+
+@layer base {
+    .bg-primary {
+        background-color: theme('colors.slate.900');
+        /* @apply bg-slate-900; */
+    }
+    
+    .bg-secondary {
+        background-color: theme('colors.slate.800');
+        /* @apply bg-slate-800; */
+    }    
+}
+

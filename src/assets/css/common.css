@@ -1,0 +1,37 @@
+
+@import './color.css';
+
+@layer components {
+    .main-box-b1 {
+        @apply bg-blue-900/30 rounded-lg shadow-lg p-4;
+    }
+
+    .main-box-b2 {
+        @apply bg-blue-800/30 rounded-lg shadow-lg p-4;
+    }
+
+    .main-box-b3 {
+        @apply bg-indigo-800/30 rounded-lg shadow-lg p-4;
+    }
+
+    .main-box-b4 {
+        @apply bg-indigo-900/30 rounded-lg shadow-lg p-4;
+    }
+
+    :hover .main-box-b1 {
+        @apply hover:ring-blue-800/50;
+    }
+
+    :hover .main-box-b2 {
+        @apply hover:ring-blue-700/50;
+    }
+
+    :hover .main-box-b3 {
+        @apply hover:ring-indigo-700/30;
+    }
+
+    :hover .main-box-b4 {
+        @apply hover:ring-indigo-800/30;
+    }
+
+}
