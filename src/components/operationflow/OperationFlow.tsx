@@ -1,6 +1,7 @@
 import { FlowHead } from '@/components/operationflow/FlowHead';
 import { FlowTail } from '@/components/operationflow/FlowTail';
 import { FlowBodyGroup } from '@/components/operationflow/body/FlowBodyGroup';
+import { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -21,6 +22,7 @@ export type operationList = operationJSON[];
 
 export type operationLines = {
         line: number;
+        type: 'main' | 'sub';
         operationList: operationJSON[];
 }[];
 
@@ -36,12 +38,17 @@ export function Operationflow({
     operationLines,
     headText, tailText,
 }: operationFlowProps ) {
+
+    const [currentHeadText, setHeadText] = useState<string>(headText);
+    const [currentTailText, setTailText] = useState<string>(tailText);
+    const [operationLinesState, setOperationLinesState] = useState<operationLines>(operationLines);
+    
     return(
         <DndProvider backend={HTML5Backend}>
             <div className="flex justify-center min-h-screen items-center">
-                <FlowHead text={headText} />
-                <FlowBodyGroup operationLines={operationLines} />
-                <FlowTail text={tailText} />
+                <FlowHead text={currentHeadText} />
+                <FlowBodyGroup operationLines={operationLinesState} />
+                <FlowTail text={currentTailText} />
             </div>
         </DndProvider>
     );

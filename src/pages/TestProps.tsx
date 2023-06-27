@@ -4,6 +4,7 @@ export const testProps: operationFlowProps = {
     operationLines: [
         {
             line: 1,
+            type: 'main',
             operationList: [
                 {
                     sequence: 1,
@@ -44,6 +45,7 @@ export const testProps: operationFlowProps = {
         },
         {
             line: 2,
+            type: 'sub',
             operationList: [
                 {
                     sequence: 1,
@@ -64,6 +66,7 @@ export const testProps: operationFlowProps = {
         },
         {
             line: 3,
+            type: 'sub',
             operationList: [
                 {
                     sequence: 2,

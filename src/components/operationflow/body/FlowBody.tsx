@@ -6,20 +6,21 @@ import { joinClassNames } from '@/utils/String';
 export type flowBodyProps = {
     children?: string | JSX.Element | JSX.Element[];
     operationList: operationList;
+    type: 'main' | 'sub';
 };
 
 export function FlowBody({
     children,
     operationList,
+    type,
 }: flowBodyProps) {
-    // List of operations
+    //====================================================================================================//
+    // Dragging and Sort
     const [operationState, setOperation] = useState<operationList>(operationList);
 
-    // Save Reference to the dragged item
     const dragItem = useRef<any>(null);
     const dragOverItem = useRef<any>(null);
 
-    // Drag Sorting
     const handleSort = () => {   
         let list = [...operationState];
 
@@ -42,6 +43,37 @@ export function FlowBody({
 
         setOperation(list);
         console.log(list);
+    };
+    
+    const onDragEnd = (event: React.DragEvent<HTMLDivElement>, index: number) => {
+        console.log('drag end', index);
+    };
+
+    const onDragStart = (event: React.DragEvent<HTMLDivElement>, index: number) => {
+        console.log('drag start', index);
+    };
+
+    const onDragOver = (event: React.DragEvent<HTMLDivElement>, index: number) => {
+        console.log('drag over', index);
+    };
+
+    const onDragEnter = (event: React.DragEvent<HTMLDivElement>, index: number) => {
+        console.log('drag enter', index);
+    };
+
+    //====================================================================================================//
+    // Class Names
+    const isInvisible = (type: 'main' | 'sub') => {
+        console.log(type);
+        if (type === 'main') {
+            return '';
+        }
+        else if (type === 'sub') {
+            return 'bg-transparent';
+        }
+        else {
+            return '';
+        }
     };
 
     const matchShapeClass = (shapeType: string | undefined) => {
@@ -97,30 +129,22 @@ export function FlowBody({
         }
     };
 
-    const onDragEnd = (event: React.DragEvent<HTMLDivElement>, index: number) => {
-        console.log('drag end', index);
-    };
-
-    const onDragStart = (event: React.DragEvent<HTMLDivElement>, index: number) => {
-        console.log('drag start', index);
-    };
-
-    const onDragOver = (event: React.DragEvent<HTMLDivElement>, index: number) => {
-        console.log('drag over', index);
-    };
-
-    const onDragEnter = (event: React.DragEvent<HTMLDivElement>, index: number) => {
-        console.log('drag enter', index);
-    };
-
+    //====================================================================================================//
 
     return (
-        <Line className={
-            joinClassNames(
-                flowBodyLength.base,
-                flowAdjustment(operationList).length,
-            )
-        }>
+        <Line 
+            className={
+                joinClassNames(
+                    flowBodyLength.base,
+                    flowAdjustment(operationList).length,
+                )
+            }
+            lineColor={
+                joinClassNames(
+                    isInvisible(type),
+                )
+            }
+        >
             {
                 operationState.map((operation, index) => {
                     return (

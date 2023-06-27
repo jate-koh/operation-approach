@@ -1,4 +1,4 @@
-import { ShapeTextBox } from "@/components/common/ShapeTextBox";
+import { ShapeTextBox } from '@/components/common/ShapeTextBox';
 
 export type FlowTailProps = {
     text: string;
@@ -10,7 +10,7 @@ export function FlowTail({
     return (
         <ShapeTextBox 
             shapeType='rectangle' text={text} hasSolid={{enabled: true}}
-            textClassName='text-black' shrinkable={false} className='w-[256px] h-[280px]'
+            textClassName='text-black' shrinkable={false} className='w-[256px] h-[128px]'
         />
     );
 }

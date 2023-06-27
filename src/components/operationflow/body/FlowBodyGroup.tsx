@@ -133,7 +133,7 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
             )
         }>
             {operationLinesState.map((line, index) => (
-                <FlowBody key={index} operationList={line.operationList} />
+                <FlowBody key={index} operationList={line.operationList} type={line.type}/>
             ))}
         </div>
     );
