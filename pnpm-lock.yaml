@@ -11,12 +11,12 @@ dependencies:
   react:
     specifier: ^17.0.2
     version: 17.0.2
+  react-beautiful-dnd:
+    specifier: 13.1.1
+    version: 13.1.1(react-dom@17.0.2)(react@17.0.2)
   react-dnd:
     specifier: ^16.0.1
     version: 16.0.1(@types/node@20.2.5)(@types/react@17.0.62)(react@17.0.2)
-  react-dnd-beautiful:
-    specifier: ^13.1.1
-    version: 13.1.1(react-dom@17.0.2)(react@17.0.2)
   react-dnd-html5-backend:
     specifier: ^16.0.1
     version: 16.0.1
@@ -40,6 +40,9 @@ devDependencies:
   '@types/react':
     specifier: ^17.0.62
     version: 17.0.62
+  '@types/react-beautiful-dnd':
+    specifier: 13.1.1
+    version: 13.1.1
   '@types/react-dom':
     specifier: ^17.0.20
     version: 17.0.20
@@ -671,7 +674,7 @@ packages:
   /@types/hoist-non-react-statics@3.3.1:
     resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
     dependencies:
-      '@types/react': 18.2.8
+      '@types/react': 17.0.62
       hoist-non-react-statics: 3.3.2
     dev: false
 
@@ -685,6 +688,12 @@ packages:
   /@types/prop-types@15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
+  /@types/react-beautiful-dnd@13.1.1:
+    resolution: {integrity: sha512-1lBBxVSutE8CQM37Jq7KvJwuA94qaEEqsx+G0dnwzG6Sfwf6JGcNeFk5jjjhJli1q2naeMZm+D/dvT/zyX4QPw==}
+    dependencies:
+      '@types/react': 17.0.62
+    dev: true
+
   /@types/react-dom@17.0.20:
     resolution: {integrity: sha512-4pzIjSxDueZZ90F52mU3aPoogkHIoSIDG+oQ+wQK7Cy2B9S+MvOqY0uEA/qawKz381qrEDkvpwyt8Bm31I8sbA==}
     dependencies:
@@ -694,7 +703,7 @@ packages:
     resolution: {integrity: sha512-bAGh4e+w5D8dajd6InASVIyCo4pZLJ66oLb80F9OBLO1gKESbZcRCJpTT6uLXX+HAB57zw1WTdwJdAsewuTweg==}
     dependencies:
       '@types/hoist-non-react-statics': 3.3.1
-      '@types/react': 18.2.8
+      '@types/react': 17.0.62
       hoist-non-react-statics: 3.3.2
       redux: 4.2.1
     dev: false
@@ -705,14 +714,6 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
       csstype: 3.1.2
-
-  /@types/react@18.2.8:
-    resolution: {integrity: sha512-lTyWUNrd8ntVkqycEEplasWy2OxNlShj3zqS0LuB1ENUGis5HodmhM7DtCoUGbxj3VW/WsGA0DUhpG6XrM7gPA==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.3
-      csstype: 3.1.2
-    dev: false
 
   /@types/scheduler@0.16.3:
     resolution: {integrity: sha512-5cJ8CB4yAx7BH1oMvdU0Jh9lrEXyPkar6F9G/ERswkCuvP4KQZfZkSjcMbAICCpQTN4OuZn8tz0HiKv9TGZgrQ==}
@@ -2281,11 +2282,11 @@ packages:
     resolution: {integrity: sha512-tQkJl2GRWh83ui2DiPTJz9wEiMN20syf+5oKfB03yYP7ioZcJwsIK8FjrtLwH1m7C7e+Tt2yYBlrOpdT+dyeIQ==}
     dev: false
 
-  /react-dnd-beautiful@13.1.1(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-LqlMkeQGVJuPj37dmWVzfebIXYgPkHA+xsnSnX095vuQkpeZf7lWtlL3Q7qOMvMohVVA4hzXUbBpTcCYlaotXQ==}
+  /react-beautiful-dnd@13.1.1(react-dom@17.0.2)(react@17.0.2):
+    resolution: {integrity: sha512-0Lvs4tq2VcrEjEgDXHjT98r+63drkKEgqyxdA7qD3mvKwga6a5SscbdLPO2IExotU1jW8L0Ksdl0Cj2AF67nPQ==}
     peerDependencies:
-      react: ^16.8.5 || ^17.0.0
-      react-dom: ^16.8.5 || ^17.0.0
+      react: ^16.8.5 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.5 || ^17.0.0 || ^18.0.0
     dependencies:
       '@babel/runtime': 7.22.3
       css-box-model: 1.2.1
