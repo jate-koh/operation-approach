@@ -1,6 +1,9 @@
+import { Line } from '@/components/common/Line';
 import { FlowBody } from '@/components/operationflow/body/FlowBody';
-import { operationLines } from '@/components/operationflow/OperationFlow';
+import { operationLines, operationList } from '@/components/operationflow/OperationFlow';
 import { joinClassNames } from '@/utils/String';
+
+import { Droppable, Draggable ,DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useState } from 'react';
 
 export type flowBodyGroupProps = {
@@ -31,7 +34,6 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
         });
         return lowestSequence;
     };
-
 
     const adjustLines = (operationLines: operationLines) => {
         // Start counting from the lowest sequence
@@ -106,6 +108,72 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
     const [operationLinesState, setOperationLines] = useState<operationLines>(adjustLines(operationLines));
 
     //====================================================================================================//
+    // Line Adjustment
+    const isInvisible = (type: 'main' | 'sub') => {
+        if (type === 'main') {
+            return '';
+        }
+        else if (type === 'sub') {
+            return 'bg-transparent';
+        }
+        else {
+            return '';
+        }
+    };
+
+    const matchShapeClass = (shapeType: string | undefined) => {
+        let shape = shapeType;
+        if (shape != undefined) {
+            shape = shape.toLowerCase();
+            switch (shape) {
+            case 'circle':
+                return 'circle w-[64px] h-[64px] bg-white';
+            case 'diamond':
+                return 'diamond w-[64px] h-[64px] bg-white';
+            case 'placeholder':
+                return 'placeholder w-[64px] h-[64px]';
+            default:
+                return 'circle w-[64px] h-[64px] bg-white';
+            }
+        }
+        else {
+            return 'placeholder';
+        }
+    };
+
+    const flowBodyLength = {
+        base: 'h-2',
+        short: {
+            margin: 'm-[16px]',
+            length: 'w-[384px]'
+        },
+        medium: {
+            margin: 'm-[16px]',
+            length: 'w-[640px]'
+        },
+        long: {
+            margin: 'm-[16px]',
+            length: 'w-[768px]'
+        },
+        extraLong: {
+            margin: 'm-[16px]',
+            length: 'w-[1024px]'
+        },
+    };
+
+    const flowAdjustment = (operationList: operationList) => {
+        let operationLength = operationList.length;
+        if (operationLength <= 3) {
+            return flowBodyLength.short;
+        } else if (operationLength <= 5) {
+            return flowBodyLength.medium;
+        } else if (operationLength <= 8) {
+            return flowBodyLength.long;
+        } else {
+            return flowBodyLength.extraLong;
+        }
+    };
+    //====================================================================================================//
     // Gap Adjustments
     const gaps = {
         small: 'gap-20',
@@ -124,17 +192,181 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
         }
     };
     //====================================================================================================//
+    // Drag and Drop
+    const onDragEnd = (result: DropResult) => {
+        const { source, destination } = result;
+
+        // If the user drops the item outside of the droppable area
+        if (!destination) {
+            return;
+        }
+
+        // If the user drops the item in the same droppable area
+        if (source.droppableId === destination.droppableId) {
+            const operationLines = reorder(
+                operationLinesState,
+                source.droppableId,
+                source.index,
+                destination.index
+            );
+            setOperationLines(operationLines);
+        // If the user drops the item in a different droppable area
+        } else {
+            const operationLines = move(
+                operationLinesState,
+                source.droppableId,
+                destination.droppableId,
+                source.index,
+                destination.index
+            );
+            setOperationLines(operationLines);
+        }
+    };
+
+    const reorder = (
+        operationLines: operationLines,
+        droppableId: string,
+        startIndex: number,
+        endIndex: number
+    ) => {
+        const line = operationLines.find((line) => line.type === droppableId);
+        if (!line) {
+            return operationLines;
+        }
+        const result = Array.from(line.operationList);
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+        return operationLines.map((line) => {
+            if (line.type === droppableId) {
+                return {
+                    ...line,
+                    operationList: result,
+                };
+            }
+            return line;
+        });
+    };
+
+    const move = (
+        operationLines: operationLines,
+        sourceDroppableId: string,
+        destinationDroppableId: string,
+        sourceIndex: number,
+        destinationIndex: number
+    ) => {
+        const sourceLine = operationLines.find(
+            (line) => line.type === sourceDroppableId
+        );
+        const destinationLine = operationLines.find(
+            (line) => line.type === destinationDroppableId
+        );
+        if (!sourceLine || !destinationLine) {
+            return operationLines;
+        }
+        const sourceClone = Array.from(sourceLine.operationList);
+        const destinationClone = Array.from(destinationLine.operationList);
+        const [removed] = sourceClone.splice(sourceIndex, 1);
+        destinationClone.splice(destinationIndex, 0, removed);
+        return operationLines.map((line) => {
+            if (line.type === sourceDroppableId) {
+                return {
+                    ...line,
+                    operationList: sourceClone,
+                };
+            } else if (line.type === destinationDroppableId) {
+                return {
+                    ...line,
+                    operationList: destinationClone,
+                };
+            }
+            return line;
+        });
+    };
+
+    //====================================================================================================//
     
     return(
-        <div className={
-            joinClassNames(
-                'grid grid-cols-1',
-                matchGap(operationLinesState),
-            )
-        }>
-            {operationLinesState.map((line, index) => (
-                <FlowBody key={index} operationList={line.operationList} type={line.type}/>
-            ))}
-        </div>
+        <DragDropContext onDragEnd={(result) => onDragEnd(result) }>
+            <div className={
+                joinClassNames(
+                    'grid grid-cols-1',
+                    matchGap(operationLinesState),
+                )
+            }>
+                {operationLinesState.map((line, index) => (
+                    <Droppable droppableId={line.line.toString()} key={index}>
+                        {
+                            (provided, snapshot) => {
+                                return (
+                                    <div
+                                        {...provided.droppableProps}
+                                        ref={provided.innerRef}
+                                    >
+                                        <Line key={index}
+                                            className={
+                                                joinClassNames(
+                                                    flowBodyLength.base,
+                                                    flowAdjustment(line.operationList).length,
+                                                )
+                                            }
+                                            lineColor={
+                                                joinClassNames(
+                                                    snapshot.isDraggingOver ? 'bg-red-500' : isInvisible(line.type),
+                                                )
+                                            }
+                                        >
+                                            {
+                                                line.operationList.map((operation, index) => {
+                                                    return (
+                                                        <Draggable
+                                                            key={operation.id}
+                                                            draggableId={operation.id ? operation.id : operation.sequence.toString()}
+                                                            index={index}
+                                                        >
+                                                            {
+                                                                (provided, snapshot) => {
+                                                                    return (
+                                                                        <div
+                                                                            ref={provided.innerRef}
+                                                                            {...provided.draggableProps}
+                                                                            {...provided.dragHandleProps}
+                                                                            className='circle w-[64px] h-[64px] bg-white'
+                                                                        >
+                                                                            <h1>
+                                                                                {operation.id}
+                                                                            </h1>
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            }
+                                                        </Draggable>
+                                                    );
+                                                })    
+                                            }
+                                        </Line>
+                                    </div>
+                                );
+                            }
+                        }
+
+                        {/* <Line key={index} 
+                            className={
+                                joinClassNames(
+                                    flowBodyLength.base,
+                                    flowAdjustment(line.operationList).length,
+                                )
+                            }
+                            lineColor={
+                                joinClassNames(
+                                    isInvisible(line.type),
+                                )
+                            }
+                        >
+                            <FlowBody key={index} operationList={line.operationList}/>
+                        </Line> */}
+                    </Droppable>
+                ))}
+            </div>
+        </DragDropContext>
     );
 }

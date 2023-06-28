@@ -1,18 +1,16 @@
 import { operationList } from '@/components/operationflow/OperationFlow';
 import { Line } from '@/components/common/Line';
-import React, { useRef, useState } from 'react';
 import { joinClassNames } from '@/utils/String';
+import React, { useRef, useState } from 'react';
 
 export type flowBodyProps = {
     children?: string | JSX.Element | JSX.Element[];
     operationList: operationList;
-    type: 'main' | 'sub';
 };
 
 export function FlowBody({
     children,
     operationList,
-    type,
 }: flowBodyProps) {
     //====================================================================================================//
     // Dragging and Sort
@@ -62,19 +60,6 @@ export function FlowBody({
     };
 
     //====================================================================================================//
-    // Class Names
-    const isInvisible = (type: 'main' | 'sub') => {
-        console.log(type);
-        if (type === 'main') {
-            return '';
-        }
-        else if (type === 'sub') {
-            return 'bg-transparent';
-        }
-        else {
-            return '';
-        }
-    };
 
     const matchShapeClass = (shapeType: string | undefined) => {
         let shape = shapeType;
@@ -132,19 +117,7 @@ export function FlowBody({
     //====================================================================================================//
 
     return (
-        <Line 
-            className={
-                joinClassNames(
-                    flowBodyLength.base,
-                    flowAdjustment(operationList).length,
-                )
-            }
-            lineColor={
-                joinClassNames(
-                    isInvisible(type),
-                )
-            }
-        >
+        <>
             {
                 operationState.map((operation, index) => {
                     return (
@@ -190,7 +163,7 @@ export function FlowBody({
                     );
                 })
             }
-        </Line>
+        </>
     );
 }
 
