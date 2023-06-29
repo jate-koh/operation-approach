@@ -1,7 +1,6 @@
 import { Line } from '@/components/common/Line';
-import { FlowBody } from '@/components/operationflow/body/FlowBody';
-import { operationLines, operationList } from '@/components/operationflow/OperationFlow';
-import { joinClassNames } from '@/utils/String';
+import { operationLines, operationList } from '@/components/operation-flow/OperationFlow';
+import { joinClassNames, randomId } from '@/utils/String';
 
 import { Droppable, Draggable ,DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useState } from 'react';
@@ -44,27 +43,27 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
             index = 0;
             let temp = line.operationList;
 
-            console.log(line.operationList);
-            console.log('Lowest Seq: ' + lowestSequence, 'Length: ' + line.operationList.length, 'Max Seq: ' + maxSequence);
+            // console.log(line.operationList);
+            // console.log('Lowest Seq: ' + lowestSequence, 'Length: ' + line.operationList.length, 'Max Seq: ' + maxSequence);
            
             // Iterate through each operation in the line equal to maxSequence
             for (let i = lowestSequence; i <= maxSequence && index < line.operationList.length; i++) {
                
-                console.log('Current index: ' + index, 'Loop Seq: ' + i);
+                // console.log('Current index: ' + index, 'Loop Seq: ' + i);
                 // If the current index is lower than the length of the operationList
                 if (index < line.operationList.length) {
-                    console.log('Current Seq: ' + line.operationList[index].sequence);
+                    // console.log('Current Seq: ' + line.operationList[index].sequence);
                     // If the current operation's sequence is not equal to the current index
                     if ( line.operationList[index].sequence && line.operationList[index].sequence != i) {
                         // Fragment the operationList before the current index
                         let before = temp.slice(0, index);
-                        console.log('Before: ')
-                        console.log(before)
+                        // console.log('Before: ')
+                        // console.log(before);
                         
                         // Fragment the operationList after the current index
                         let after = temp.slice(index, temp.length);
-                        console.log('After: ')
-                        console.log(after)
+                        // console.log('After: ')
+                        // console.log(after);
                         
                         // Insert a placeholder operation at the current index
                         before.push({
@@ -75,8 +74,8 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
                         // Merge the two fragments
                         temp = before.concat(after);
                         
-                        console.log('Placeholder inserted at index: ' + index);
-                        console.log(temp);
+                        // console.log('Placeholder inserted at index: ' + index);
+                        // console.log(temp);
                         index++;
                     } else {
                         // Move on to the next operation
@@ -97,16 +96,50 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
                         shapeType: 'placeholder',
                     });
                 }
-                console.log(temp);
+                // console.log(temp);
             }
             // Replace the operationList with the adjusted one
+            console.log(temp);
             line.operationList = temp;
         });
         return operationLines;
     };
 
-    const [operationLinesState, setOperationLines] = useState<operationLines>(adjustLines(operationLines));
+    const reorderLines = (operationLines: operationLines) => {
+        let temp = operationLines;
 
+        // If there is even number of lines
+        if (temp.length % 2 === 0) {
+            // Add another line with type: sub
+            temp.push({
+                line: randomId(10, 20),
+                type: 'sub',
+                operationList: [],
+            });
+        }
+
+        // Find the middle line index
+        let middleLineIndex = Math.floor(temp.length / 2);
+
+        // Find which line has type: main
+        let mainLineIndex = 0;
+        for (let i = 0; i < temp.length; i++) {
+            if (temp[i].type === 'main') {
+                mainLineIndex = i;
+                break;
+            }
+        }
+
+        // Swap the middle line with the main line
+        let middleLine = temp[middleLineIndex];
+        temp[middleLineIndex] = temp[mainLineIndex];
+        temp[mainLineIndex] = middleLine;
+
+        console.log(temp);
+        return temp;
+    };
+
+    const [operationLinesState, setOperationLines] = useState<operationLines>(adjustLines(reorderLines(operationLines)));
     //====================================================================================================//
     // Line Adjustment
     const isInvisible = (type: 'main' | 'sub') => {
@@ -176,9 +209,9 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
     //====================================================================================================//
     // Gap Adjustments
     const gaps = {
-        small: 'gap-20',
-        medium: 'gap-20',
-        large: 'gap-32',
+        small: 'gap-16',
+        medium: 'gap-16',
+        large: 'gap-16',
     };
 
     const matchGap = (operationLines: operationLines) => {
@@ -187,7 +220,7 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
             return gaps.small;
         } else if (length == 3) {
             return gaps.medium;
-        } else if (length > 4) {
+        } else if (length >= 4) {
             return gaps.large;
         }
     };
@@ -282,11 +315,8 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
             return line;
         });
     };
-
-    //====================================================================================================//
-    
     return(
-        <DragDropContext onDragEnd={(result) => onDragEnd(result) }>
+        <DragDropContext onDragEnd={(result) => console.log(result) }>
             <div className={
                 joinClassNames(
                     'grid grid-cols-1',
@@ -294,7 +324,7 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
                 )
             }>
                 {operationLinesState.map((line, index) => (
-                    <Droppable droppableId={line.line.toString()} key={index}>
+                    <Droppable droppableId={line.line.toString()} key={index} direction='horizontal'>
                         {
                             (provided, snapshot) => {
                                 return (
@@ -319,8 +349,8 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
                                                 line.operationList.map((operation, index) => {
                                                     return (
                                                         <Draggable
-                                                            key={operation.id}
-                                                            draggableId={operation.id ? operation.id : operation.sequence.toString()}
+                                                            key={index}
+                                                            draggableId={operation.id ? operation.id : index.toString()}
                                                             index={index}
                                                         >
                                                             {
@@ -344,6 +374,7 @@ export function FlowBodyGroup( { operationLines }: flowBodyGroupProps ) {
                                                 })    
                                             }
                                         </Line>
+                                        {provided.placeholder}
                                     </div>
                                 );
                             }

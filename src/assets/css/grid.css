@@ -1,0 +1,17 @@
+
+@layer components {
+
+  .graph-line {
+    @apply bg-white h-2 w-[100%];
+  }
+
+  .grid-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
+    
+  .grid-container .react-grid-layout {
+    width: 95%;
+  }
+}

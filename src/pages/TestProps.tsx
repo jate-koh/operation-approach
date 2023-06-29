@@ -1,9 +1,9 @@
-import { operationFlowProps } from '@/components/operationflow/OperationFlow';
+import { operationFlowProps } from '@/components/operation-flow/OperationFlow';
 
 export const testProps: operationFlowProps = {
     operationLines: [
         {
-            line: 1,
+            line: 'FEdcx1',
             type: 'main',
             operationList: [
                 {
@@ -44,7 +44,7 @@ export const testProps: operationFlowProps = {
             ],
         },
         {
-            line: 2,
+            line: 'Dcd1x2',
             type: 'sub',
             operationList: [
                 {
@@ -65,7 +65,7 @@ export const testProps: operationFlowProps = {
             ]
         },
         {
-            line: 3,
+            line: 'CD2fs5',
             type: 'sub',
             operationList: [
                 {
@@ -74,6 +74,11 @@ export const testProps: operationFlowProps = {
                     shapeType: 'diamond',
                 }
             ]
+        },
+        {
+            line: 'C27fsE4',
+            type: 'sub',
+            operationList: [],
         },
     ],
     headText: 'ปฎิบัติการทางบก',
