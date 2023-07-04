@@ -3,14 +3,13 @@
 
 @import 'tailwindcss/base';
 
-@import './css/main.css';
+@import './dashie/main.css';
 
 @import 'tailwindcss/components';
 
-@import './css/common.css';
-@import './css/color.css';
-@import './css/animation.css';
-@import './css/shape.css';
-@import './css/grid.css';
+@import './dashie/color.css';
+
+@import './operation-flow/graph-base.css';
+@import './operation-flow/shape.css';
 
 @import 'tailwindcss/utilities';

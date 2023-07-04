@@ -1,0 +1,56 @@
+
+@layer components {
+
+    .shape-base {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .circle {
+        border-radius: 9999px;
+        @apply flex text-center items-center justify-center;
+    }
+
+    .placeholder {
+        background-color: transparent;
+        @apply circle;
+        @apply shape-base;
+    }
+    
+    .rounded-square {
+        border-radius: 32px;
+        @apply shape-base;
+    }
+
+
+    .rounded-rectangle {
+        min-height: 128px;
+        border-radius: 32px;
+        @apply shape-base;
+    }
+
+    .diamond {
+        @apply shape-base;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+        --tw-rotate: 45deg;
+    }
+
+    .diamond h1 {
+        @apply -rotate-45;
+    }
+
+    .diamond h2 {
+        @apply -rotate-45;
+    }
+
+    .diamond h3 {
+        @apply -rotate-45;
+    }
+
+    .horizontal-line {
+        @apply shape-base;
+    }
+
+}

@@ -1,0 +1,50 @@
+
+@import '../color.css';
+
+@layer components {
+   .main-box-b1 {
+        background-color: rgb(30 58 138 / 0.3);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        @apply shadow-lg
+    }
+
+    .main-box-b2 {
+        background-color: rgb(30 64 175 / 0.3);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        @apply shadow-lg
+    }
+
+    .main-box-b3 {
+        background-color: rgb(55 48 163 / 0.3);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        @apply shadow-lg
+    }
+
+    .main-box-b4 {
+        background-color: rgb(49 46 129/ 0.3);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        @apply shadow-lg;
+    }
+
+    :hover .main-box-b1 {
+        @apply hover:ring-blue-800/50;
+    }
+
+    :hover .main-box-b2 {
+        @apply hover:ring-blue-700/50;
+    }
+
+    :hover .main-box-b3 {
+        @apply hover:ring-indigo-700/30;
+    }
+
+    :hover .main-box-b4 {
+        @apply hover:ring-indigo-800/30;
+    }
+
+
+}
