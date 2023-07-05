@@ -66,7 +66,7 @@ function shapeMatch(shapeType: ShapeType | string): string {
 
 export function ShapeTextBox({ 
     children,
-    shapeType, shapeWidth, shapeHeight,     shrinkable,
+    shapeType, shapeWidth, shapeHeight, shrinkable,
     hasSolid, hasBorder,
     isBold, isItalic, isUnderline, 
     className, textClassName,

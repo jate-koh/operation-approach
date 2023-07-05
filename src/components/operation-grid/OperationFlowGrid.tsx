@@ -1,15 +1,15 @@
 import { operationJSON, operationLines, operationList } from '@/components/operation-flow/OperationFlow';
-import { Line } from '@/components/common/Line';
 import { joinClassNames, randomId } from '@/utils/String';
-import { FlowHead } from '@/components/operation-flow/FlowHead';
-import { FlowTail } from '@/components/operation-flow/FlowTail';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Responsive, WidthProvider, Layout } from 'react-grid-layout';
+import { ShapeTextBox } from '../common/ShapeTextBox';
 
 export type operationFlowGridProps = {
     operationLines: operationLines;
 };
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
 
@@ -103,7 +103,7 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
                 // console.log(temp);
             }
             // Replace the operationList with the adjusted one
-            console.log(temp);
+            // console.log(temp);
             line.operationList = temp;
         });
         return operationLines;
@@ -140,7 +140,7 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         temp[middleLineIndex] = temp[mainLineIndex];
         temp[mainLineIndex] = middleLine;
 
-        console.log(temp);
+        // console.log(temp);
         return temp;
     };
 
@@ -151,13 +151,16 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
                 gridArray.push(operation);
             });
         });
-        console.log(gridArray);
+        // console.log(gridArray);
+
         return gridArray;
     };
 
-    const [currentMaxLength, setMaxLength] = useState<number>(findMaxSequence(operationLines));
+    // Hook States
     const [operationLinesState, setOperationLines] = useState<operationLines>(adjustLines(reorderLines(operationLines)));
+    const [currentMaxLength, setMaxLength] = useState<number>(findMaxSequence(operationLines));
     const [currentGridArray, setGridArray] = useState<operationJSON[]>(createGridArray(operationLinesState));
+    const [amountOfLines, setLinesAmount] = useState<number>(operationLinesState.length);
 
     //====================================================================================================//
     // Line Class Adjustment
@@ -245,7 +248,7 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
     };
     //====================================================================================================//
     // Grid Layout
-    const initialLayout = currentGridArray.map((line, index) => {
+    const createLayout = currentGridArray.map((line, index) => {
         return {
             x: line.sequence - 1,
             y: index,
@@ -255,30 +258,92 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         };
     });
     
-    const ResponsiveGridLayout = WidthProvider(Responsive);
-    const [currentLayout, setLayout] = useState<Layout[]>(initialLayout);
-
-    const handleOverflow = (layout: Layout[]) => {
+    const handleOverflow = (layout: Layout[]): Layout[] | undefined => {
         let temp = layout;
+        
+        // Find number of element in each column
+        let columnCount = new Array(currentMaxLength).fill(0);
+
+        // Fill columnCount with number of elements in each column
+        temp.forEach((element) => {
+            columnCount[element.x] += 1;
+        });
+        // columnCount.forEach((count, index) => {
+        //     console.log(`Column ${index} has ${count} elements`);
+        // });
+
+        // Find the column with the lowest and highest number of elements
+        let lowestColumnIndex: number = 0;
+        let highestColumnIndex: number = 0;
+        for (let i = 0; i < columnCount.length; i++) {
+            if (columnCount[i] < columnCount[lowestColumnIndex]) {
+                lowestColumnIndex = i;
+            }
+            if (columnCount[i] > columnCount[highestColumnIndex]) {
+                highestColumnIndex = i;
+            }
+        }
+        // console.log(`Column ${lowestColumnIndex} has the lowest number of elements`);
+        // console.log(`Column ${highestColumnIndex} has the highest number of elements`);
+
+        // Find placeholder elements in highest column
+        // and place them in the lowest column at the last row
+        let placeholderElements: Layout = {
+            x: 0,
+            y: 0,
+            w: 1,
+            h: 1,
+            i: '',
+        };
+        temp.forEach((element, index) => {
+            if (element.x === highestColumnIndex && element.i.includes('placeholder')) {
+                // Found placeholder element
+                placeholderElements = element;
+                return;
+            }
+        });
+
+        if (!placeholderElements) return;
+
+        // Move every element in the lowest column down by 1 row
+        temp.forEach((element, index) => {
+            if (element.x === lowestColumnIndex) {
+                element.y += 1;
+            }
+        });
+
+        // Place placeholder element in the top row of the lowest column
+        placeholderElements.y = 0;
+        placeholderElements.x = lowestColumnIndex;
+
+        return temp;
     };
-
-
-    const onDragEnd = (layout: Layout[]) => {
-        setLayout(layout);
-
+    
+    const onDragEnd = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+        console.log('Drag End', layout, oldItem, newItem);
         // Handle Overflow
-        handleOverflow(layout);
-
-        console.log(layout);
+        let result = handleOverflow(layout);
+        if (result) setLayout(result);
     };
+    
+    // Hook States
+    const [currentLayout, setLayout] = useState<Layout[]>([]);
+
+    useEffect(() => {
+        console.log('Effect Layout', currentLayout);
+    }, [currentLayout]);
+
     //====================================================================================================//
 
     return (
-        <div className='flex items-center'>
-            <FlowHead text='Header' />
-            <div className='graph-line' style={{position: 'absolute', zIndex: -1}}></div>
-            <div className='grid-container' style={{position: 'relative', zIndex: 1}}>
-                <ResponsiveGridLayout onDragStop={(layout) => onDragEnd(layout)} 
+        <div className='flex items-center w-[80%]'>
+            <ShapeTextBox
+                shapeType='rectangle' text={'Header'} hasSolid={{enabled: true}}
+                textClassName='text-black' shrinkable={true} className='w-[256px] h-[128px]'
+            />
+            <div className='graph-line bg-white w-[80%]' style={{}}></div>
+            <div className='grid-container' style={{}}>
+                <ResponsiveGridLayout onDragStop={(layout, oldItem, newItem) => onDragEnd(layout, oldItem, newItem)} 
                     cols={{lg: currentMaxLength, md: currentMaxLength, sm: currentMaxLength, xs: currentMaxLength, xxs: currentMaxLength}}
                     isResizable={false} isDraggable={true}
                     layouts={{lg: currentLayout, md: currentLayout, sm: currentLayout, xs: currentLayout, xxs: currentLayout}}
@@ -287,7 +352,7 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
                     {
                         currentGridArray.map((line, index) => {
                             return (
-                                <div key={`${line.id}-${index}`} data-grid={{
+                                <div key={`${line.id ? line.id : 'placeholder'}-${index}`} data-grid={{
                                     x: line.sequence - 1,
                                     y: index,
                                     w: 1,
@@ -314,7 +379,10 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
                     }
                 </ResponsiveGridLayout>
             </div>
-            <FlowTail text='Tail' />
+            <ShapeTextBox 
+                shapeType='rectangle' text={'Tail'} hasSolid={{enabled: true}}
+                textClassName='text-black' shrinkable={true} className='w-[256px] h-[128px]'
+            />
         </div>
     );
 }

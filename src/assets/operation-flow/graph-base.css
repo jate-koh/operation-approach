@@ -4,16 +4,17 @@
 @layer components {
 
   .graph-line {
-    --tw-bg-opacity: 1;
-    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    position: absolute;
     height: 0.5rem; /* 8px */
-    width: 50%;
+    z-index: -1;
   }
 
   .grid-container {
-    flex-grow: 1;
+    position: relative;
     display: flex;
+    flex-grow: 1;
     justify-content: center;
+    z-index: 1;
   }
     
   .grid-container .react-grid-layout {
