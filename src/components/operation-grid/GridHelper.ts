@@ -36,9 +36,9 @@ export function findMinSequence(operationLines: operationLines): number {
 //========================================================================
 // Line Preparation
 // Add a placeholder at every empty sequence
-export function processLines(operationLines: operationLines): operationLines {
-    let lowestSeq: number = findMinSequence(operationLines);
-    let highestSeq: number  = findMaxSequence(operationLines);
+export function processLines(operationLines: operationLines, maxSeq?: number, minSeq?: number): operationLines {
+    let lowestSeq: number = minSeq ? minSeq : findMinSequence(operationLines);
+    let highestSeq: number  = maxSeq ? maxSeq : findMaxSequence(operationLines);
     let index: number = 0; // Keep track of the index of the operationLines
 
     operationLines.forEach((line) => {
@@ -261,6 +261,34 @@ export function insertColumns(layout: Layout[], insertion: Layout[], colNum: num
     });
     return temp;
 }
+//========================================================================
+// Line Extension Functions
+// Extend the column to the right by one
+export function extendLine(operationLines: operationLines): operationLines {
+    let temp = operationLines;
+    let lowestSeq = findMinSequence(temp);
+    let highestSeq = findMaxSequence(temp);
+
+    temp.forEach((line) => {
+        if (line.type === 'main') {
+            line.operationList.push({
+                sequence: highestSeq + 1,
+                id: randomId(4 ,4),
+                shapeType: 'circle',
+            });
+        }
+        else if (line.type === 'sub') {
+            line.operationList.push({
+                sequence: lowestSeq + line.operationList.length,
+                shapeType: 'placeholder',
+            });
+        }
+        console.log(line.operationList);
+    });
+
+    return temp;
+}
+
 //========================================================================
 // Grid Operation Composite Functions
 // Handle overflow by moving the elements to the column with the lowest number of elements

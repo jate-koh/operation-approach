@@ -1,6 +1,7 @@
 import { operationJSON, operationLines, operationList } from '@/components/operation-flow/OperationFlow';
 import { findMaxSequence, processLines, reorderLines, 
-    createGridArray, handleOverflow, reorderCols, insertColumns
+    createGridArray, handleOverflow, reorderCols, 
+    insertColumns, extendLine
 } from '@/components/operation-grid/GridHelper';
 import { ShapeTextBox } from '@/components/common/ShapeTextBox';
 import { joinClassNames } from '@/utils/String';
@@ -30,7 +31,10 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
     const [currentLayout, setLayout] = useState<Layout[]>([]);
     useEffect(() => {
         console.log('Effect Layout', currentLayout);
-    }, [currentLayout]);
+        console.log('Effect Max Length', currentMaxLength);
+        console.log('Effect Op Line', operationLinesState);
+        console.log('Effect Grid Array', currentGridArray);
+    }, [currentLayout, currentMaxLength, operationLinesState, currentGridArray]);
 
     // States
     const [gridState, setGridState] = useState<gridState>({
@@ -39,7 +43,9 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
     });
 
     //====================================================================================================//
-    // Line Class Adjustment
+    // Styling Adjustments
+
+    // Line Visibility
     const isInvisible = (type: 'main' | 'sub') => {
         if (type === 'main') {
             return '';
@@ -52,6 +58,7 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         }
     };
 
+    // Shape Class
     const matchShapeClass = (shapeType: string | undefined) => {
         let shape = shapeType;
         if (shape != undefined) {
@@ -72,60 +79,9 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         }
     };
 
-    const flowBodyLength = {
-        base: 'h-2',
-        short: {
-            margin: 'm-[16px]',
-            length: 'w-[384px]'
-        },
-        medium: {
-            margin: 'm-[16px]',
-            length: 'w-[640px]'
-        },
-        long: {
-            margin: 'm-[16px]',
-            length: 'w-[768px]'
-        },
-        extraLong: {
-            margin: 'm-[16px]',
-            length: 'w-[1024px]'
-        },
-    };
-
-    const flowAdjustment = (operationList: operationList) => {
-        let operationLength = operationList.length;
-        if (operationLength <= 3) {
-            return flowBodyLength.short;
-        } else if (operationLength <= 5) {
-            return flowBodyLength.medium;
-        } else if (operationLength <= 8) {
-            return flowBodyLength.long;
-        } else {
-            return flowBodyLength.extraLong;
-        }
-    };
-    //====================================================================================================//
-    // Gap Adjustments
-    const gaps = {
-        small: 'gap-16',
-        medium: 'gap-16',
-        large: 'gap-16',
-    };
-
-    const matchGap = (operationLines: operationLines) => {
-        let length = operationLines.length;
-        if (length == 2) {
-            return gaps.small;
-        } else if (length == 3) {
-            return gaps.medium;
-        } else if (length >= 4) {
-            return gaps.large;
-        }
-    };
     //====================================================================================================//
     // Grid Operations
     const addLine = () => {
-
     };
 
     // Function to handle when dragging starts
@@ -147,9 +103,9 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         let endLayout: Layout[] = layout;
 
         // Handle Move to New Row
-        if (moveToNewRow) {
-            console.log('Move to New Row');
-        }
+        // if (moveToNewRow) {
+        //     console.log('Move to New Row');
+        // }
         // Handle Overflow, if new item changes column
         if (hasChangedCols) {
             result = handleOverflow(layout, currentMaxLength);
@@ -224,7 +180,13 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
             </div>
             <div className='w-[5%] add-line-wrapper hover:bg-white'>
                 {/* <div className='' /> */}
-                <button className='add-button bg-white' onClick={() => { console.log('button clicked'); }} >
+                <button className='add-button bg-white' 
+                    onClick={(event) => {
+                        setMaxLength(currentMaxLength + 1);
+                        setOperationLines(extendLine(operationLinesState));
+                        setGridArray(createGridArray(operationLinesState));
+                    }} 
+                >
                     <h1 className='text-black'>+</h1>
                 </button>
             </div>
