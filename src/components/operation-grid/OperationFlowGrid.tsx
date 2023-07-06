@@ -1,9 +1,12 @@
 import { operationJSON, operationLines, operationList } from '@/components/operation-flow/OperationFlow';
-import { joinClassNames, randomId } from '@/utils/String';
+import { findMaxSequence, processLines, reorderLines, 
+    createGridArray, handleOverflow, reorderCols, insertColumns
+} from '@/components/operation-grid/GridHelper';
+import { ShapeTextBox } from '@/components/common/ShapeTextBox';
+import { joinClassNames } from '@/utils/String';
 
 import { useEffect, useState } from 'react';
 import { Responsive, WidthProvider, Layout } from 'react-grid-layout';
-import { ShapeTextBox } from '../common/ShapeTextBox';
 
 export type operationFlowGridProps = {
     operationLines: operationLines;
@@ -14,154 +17,15 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
 
     //====================================================================================================//
-    // Operation Lines Processing
-    const findMaxSequence = (operationLines: operationLines) => {
-        let maxSequence = 0;
-        operationLines.forEach((line) => {
-            if (line.operationList.length > maxSequence) {
-                maxSequence = line.operationList.length;
-            }
-        });
-        return maxSequence;
-    };
-
-    const findLowestSequence = (operationLines: operationLines) => {
-        let lowestSequence = 99;
-        operationLines.forEach((line) => {
-            line.operationList.forEach((operation) => {
-                if (operation.sequence < lowestSequence) {
-                    lowestSequence = operation.sequence;
-                }
-            });
-        });
-        return lowestSequence;
-    };
-
-    const adjustLines = (operationLines: operationLines) => {
-        // Start counting from the lowest sequence
-        let lowestSequence = findLowestSequence(operationLines);
-        let maxSequence = findMaxSequence(operationLines);
-        let index = 0; // Keep track of the index of the certain operationList
-        operationLines.forEach((line) => {
-            index = 0;
-            let temp = line.operationList;
-
-            // console.log(line.operationList);
-            // console.log('Lowest Seq: ' + lowestSequence, 'Length: ' + line.operationList.length, 'Max Seq: ' + maxSequence);
-           
-            // Iterate through each operation in the line equal to maxSequence
-            for (let i = lowestSequence; i <= maxSequence && index < line.operationList.length; i++) {
-               
-                // console.log('Current index: ' + index, 'Loop Seq: ' + i);
-                // If the current index is lower than the length of the operationList
-                if (index < line.operationList.length) {
-                    // console.log('Current Seq: ' + line.operationList[index].sequence);
-                    // If the current operation's sequence is not equal to the current index
-                    if ( line.operationList[index].sequence && line.operationList[index].sequence != i) {
-                        // Fragment the operationList before the current index
-                        let before = temp.slice(0, index);
-                        // console.log('Before: ')
-                        // console.log(before);
-                        
-                        // Fragment the operationList after the current index
-                        let after = temp.slice(index, temp.length);
-                        // console.log('After: ')
-                        // console.log(after);
-                        
-                        // Insert a placeholder operation at the current index
-                        before.push({
-                            sequence: i,
-                            shapeType: 'placeholder',
-                        });
-
-                        // Merge the two fragments
-                        temp = before.concat(after);
-                        
-                        // console.log('Placeholder inserted at index: ' + index);
-                        // console.log(temp);
-                        index++;
-                    } else {
-                        // Move on to the next operation
-                        index++;
-                    }
-                }
-            }
-
-            // If the length of the temp is still lower than the maxSequence
-            if (temp.length < maxSequence) {
-                // Calculate the number of placeholders needed
-                let placeholderCount = maxSequence - temp.length;
-                
-                // Insert the placeholders
-                for (let i = 0; i < placeholderCount; i++) {
-                    // console.log('PLACEHOLDER', lowestSequence, temp.length, i);
-                    temp.push({
-                        sequence: lowestSequence + temp.length,
-                        shapeType: 'placeholder',
-                    });
-                }
-                // console.log(temp);
-            }
-            // Replace the operationList with the adjusted one
-            // console.log(temp);
-            line.operationList = temp;
-        });
-        return operationLines;
-    };
-
-    const reorderLines = (operationLines: operationLines) => {
-        let temp = operationLines;
-
-        // If there is even number of lines
-        if (temp.length % 2 === 0) {
-            // Add another line with type: sub
-            temp.push({
-                // Randomly generate an id from 10 to 20 characters
-                line: randomId(10, 20),
-                type: 'sub',
-                operationList: [],
-            });
-        }
-
-        // Find the middle line index
-        let middleLineIndex = Math.floor(temp.length / 2);
-
-        // Find which line has type: main
-        let mainLineIndex = 0;
-        for (let i = 0; i < temp.length; i++) {
-            if (temp[i].type === 'main') {
-                mainLineIndex = i;
-                break;
-            }
-        }
-
-        // Swap the middle line with the main line
-        let middleLine = temp[middleLineIndex];
-        temp[middleLineIndex] = temp[mainLineIndex];
-        temp[mainLineIndex] = middleLine;
-
-        // console.log(temp);
-        return temp;
-    };
-
-    const createGridArray = (operationLines: operationLines) => {
-        let gridArray: operationJSON[] = [];
-        operationLines.forEach((line) => {
-            line.operationList.forEach((operation) => {
-                gridArray.push(operation);
-            });
-        });
-        // console.log(gridArray);
-
-        return gridArray;
-    };
-
-    // Hook States
-    const [operationLinesState, setOperationLines] = useState<operationLines>(adjustLines(reorderLines(operationLines)));
+    // React Hooks
+    const [operationLinesState, setOperationLines] = useState<operationLines>(processLines(reorderLines(operationLines)));
     const [currentMaxLength, setMaxLength] = useState<number>(findMaxSequence(operationLines));
     const [currentGridArray, setGridArray] = useState<operationJSON[]>(createGridArray(operationLinesState));
     const [amountOfLines, setLinesAmount] = useState<number>(operationLinesState.length);
-
+    const [currentLayout, setLayout] = useState<Layout[]>([]);
+    useEffect(() => {
+        console.log('Effect Layout', currentLayout);
+    }, [currentLayout]);
     //====================================================================================================//
     // Line Class Adjustment
     const isInvisible = (type: 'main' | 'sub') => {
@@ -247,101 +111,44 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         }
     };
     //====================================================================================================//
-    // Grid Layout
-    const createLayout = currentGridArray.map((line, index) => {
-        return {
-            x: line.sequence - 1,
-            y: index,
-            w: 1,
-            h: 1,
-            i: line.id ? line.id : line.sequence.toString(),
-        };
-    });
-    
-    const handleOverflow = (layout: Layout[]): Layout[] | undefined => {
-        let temp = layout;
-        
-        // Find number of element in each column
-        let columnCount = new Array(currentMaxLength).fill(0);
-
-        // Fill columnCount with number of elements in each column
-        temp.forEach((element) => {
-            columnCount[element.x] += 1;
-        });
-        // columnCount.forEach((count, index) => {
-        //     console.log(`Column ${index} has ${count} elements`);
-        // });
-
-        // Find the column with the lowest and highest number of elements
-        let lowestColumnIndex: number = 0;
-        let highestColumnIndex: number = 0;
-        for (let i = 0; i < columnCount.length; i++) {
-            if (columnCount[i] < columnCount[lowestColumnIndex]) {
-                lowestColumnIndex = i;
-            }
-            if (columnCount[i] > columnCount[highestColumnIndex]) {
-                highestColumnIndex = i;
-            }
-        }
-        // console.log(`Column ${lowestColumnIndex} has the lowest number of elements`);
-        // console.log(`Column ${highestColumnIndex} has the highest number of elements`);
-
-        // Find placeholder elements in highest column
-        // and place them in the lowest column at the last row
-        let placeholderElements: Layout = {
-            x: 0,
-            y: 0,
-            w: 1,
-            h: 1,
-            i: '',
-        };
-        temp.forEach((element, index) => {
-            if (element.x === highestColumnIndex && element.i.includes('placeholder')) {
-                // Found placeholder element
-                placeholderElements = element;
-                return;
-            }
-        });
-
-        if (!placeholderElements) return;
-
-        // Move every element in the lowest column down by 1 row
-        temp.forEach((element, index) => {
-            if (element.x === lowestColumnIndex) {
-                element.y += 1;
-            }
-        });
-
-        // Place placeholder element in the top row of the lowest column
-        placeholderElements.y = 0;
-        placeholderElements.x = lowestColumnIndex;
-
-        return temp;
-    };
-    
+    // Grid Operations
     const onDragEnd = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
         console.log('Drag End', layout, oldItem, newItem);
-        // Handle Overflow
-        let result = handleOverflow(layout);
-        if (result) setLayout(result);
-    };
-    
-    // Hook States
-    const [currentLayout, setLayout] = useState<Layout[]>([]);
 
-    useEffect(() => {
-        console.log('Effect Layout', currentLayout);
-    }, [currentLayout]);
+        let hasChangedCols: boolean = oldItem.x !== newItem.x;
+        let moveToNewRow: boolean = newItem.y >= amountOfLines;
+        let result: Layout[] | undefined;
+        let endLayout: Layout[] = layout;
+
+        // Handle Move to New Row
+        if (moveToNewRow) {
+            console.log('Move to New Row');
+        }
+        // Handle Overflow, if new item changes column
+        if (hasChangedCols) {
+            result = handleOverflow(layout, currentMaxLength);
+        }
+
+        result = reorderCols(result, oldItem.x);
+        if (result) endLayout = insertColumns(endLayout, result, oldItem.x);
+        result = reorderCols(result ? result : layout, newItem.x);
+        if (result) endLayout = insertColumns(endLayout, result, newItem.x);
+        else return;
+        // console.log('End Layout', endLayout);
+
+        setLayout(endLayout);
+
+    };
 
     //====================================================================================================//
 
     return (
-        <div className='flex items-center w-[80%]'>
+        <div className='flex items-center w-[70%]'>
             <ShapeTextBox
                 shapeType='rectangle' text={'Header'} hasSolid={{enabled: true}}
                 textClassName='text-black' shrinkable={true} className='w-[256px] h-[128px]'
             />
-            <div className='graph-line bg-white w-[80%]' style={{}}></div>
+            <div className='graph-line bg-white w-[70%]' style={{}}></div>
             <div className='grid-container' style={{}}>
                 <ResponsiveGridLayout onDragStop={(layout, oldItem, newItem) => onDragEnd(layout, oldItem, newItem)} 
                     cols={{lg: currentMaxLength, md: currentMaxLength, sm: currentMaxLength, xs: currentMaxLength, xxs: currentMaxLength}}
