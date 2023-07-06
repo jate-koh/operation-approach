@@ -1,0 +1,49 @@
+
+@layer components {
+
+    /* Width Grow Animation */
+    .animate-width-grow-1 {
+        z-index: 0;
+        animation: width-grow 1s 
+            ease-in-out forwards;
+    }
+
+    .animate-width-grow-2 {
+        z-index: 0;
+        animation: width-grow 2s 
+            ease-in-out forwards;
+    }
+
+    @keyframes width-grow {
+        from {
+            width: 10%;
+        }
+
+        to {
+            width: 60%;
+        }
+    }
+
+    /* Scale Animation */
+    .animate-scale-1 {
+        z-index: 0;
+        animation: scale 1s 
+            ease-in-out forwards;
+    }
+
+    .animate-scale-2 {
+        z-index: 0;
+        animation: scale 2s 
+            ease-in-out forwards;
+    }
+
+    @keyframes scale {
+        from {
+            transform: scale(0.1);
+        }
+
+        to {
+            transform: scale(1);
+        }
+    }
+}

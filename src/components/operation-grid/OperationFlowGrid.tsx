@@ -124,6 +124,10 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
     };
     //====================================================================================================//
     // Grid Operations
+    const addLine = () => {
+
+    };
+
     // Function to handle when dragging starts
     const onDragStart = (newItem: Layout) => {
         setGridState({
@@ -169,12 +173,12 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
     //====================================================================================================//
 
     return (
-        <div className='flex items-center w-[70%]'>
+        <div className='flex items-center w-[80%]'>
             <ShapeTextBox
                 shapeType='rectangle' text={'Header'} hasSolid={{enabled: true}}
                 textClassName='text-black' shrinkable={true} className='w-[256px] h-[128px]'
             />
-            <div className='graph-line bg-white w-[70%]' style={{}}></div>
+            <div className='graph-line bg-white w-[70%]' style={{}} />
             <div className='grid-container' style={{}}>
                 <ResponsiveGridLayout 
                     onDrag={(layout, oldItem, newItem) => { onDragStart(newItem); }}
@@ -216,7 +220,13 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
                             );
                         })
                     }
-                </ResponsiveGridLayout>
+                </ResponsiveGridLayout>   
+            </div>
+            <div className='w-[5%] add-line-wrapper hover:bg-white'>
+                {/* <div className='' /> */}
+                <button className='add-button bg-white' onClick={() => { console.log('button clicked'); }} >
+                    <h1 className='text-black'>+</h1>
+                </button>
             </div>
             <ShapeTextBox 
                 shapeType='rectangle' text={'Tail'} hasSolid={{enabled: true}}

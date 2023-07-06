@@ -1,14 +1,60 @@
 
+/* Shape */
 @import './shape.css';
+
+/* Animation */
+@import '../dashie/anim/scaler.css';
+@import './graph-anim.css';
 
 @layer components {
 
-  .graph-line {
-    position: absolute;
-    height: 0.5rem; /* 8px */
-    z-index: -1;
+  /* Graph Line */
+  .line-base {
+    height: 0.5rem; /* 8px */;
   }
 
+  .graph-line {
+    position: absolute;
+    z-index: -1;
+    @apply line-base;
+  }
+
+  /* Add Line & Button */
+  .add-line-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    @apply line-base;
+  }
+
+  .add-line-wrapper:hover {
+    cursor: pointer;
+    @apply animate-width-grow-2;
+  }
+
+  button.add-button {
+    width: 0.5rem; /* 8px */;
+    height: 0.5rem; /* 8px */;
+    z-index: 1;
+    border-radius: 50%;
+    @apply circle;
+  }
+
+  button.add-button h1 {
+    padding: 0;
+    opacity: 0;
+    font-size: 0rem;
+  }
+
+  .add-line-wrapper:hover button.add-button {
+    cursor: pointer;
+    @apply animate-add-button;
+  }
+
+
+  /* Grid Container */
   .grid-container {
     position: relative;
     display: flex;

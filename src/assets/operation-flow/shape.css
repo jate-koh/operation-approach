@@ -10,7 +10,7 @@
 
     .circle {
         border-radius: 9999px;
-        @apply flex text-center items-center justify-center;
+        @apply shape-base;
     }
 
     .placeholder {

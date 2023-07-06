@@ -1,0 +1,44 @@
+
+@layer components {
+
+    .animate-add-button {
+        position: absolute;
+        animation: add-button-anim 1s
+            ease-in-out forwards;
+    }
+
+    @keyframes add-button-anim {
+        from {
+            opacity: 0;
+            width: 0.5rem;
+            height: 0.5rem;
+            right: 50%;
+        }
+
+        to {
+            opacity: 1;
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            right: 4%
+        }
+    }
+
+    .animate-add-button h1 {
+        animation: add-button-text-anim 1s
+            ease-in-out forwards;
+    }
+
+    @keyframes add-button-text-anim {
+        from {
+            opacity: 0;
+            font-size: 0rem;
+        }
+
+        to {
+            opacity: 1;
+            font-size: 2rem;
+        }
+    }
+
+}
