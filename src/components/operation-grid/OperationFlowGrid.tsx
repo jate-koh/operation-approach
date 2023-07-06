@@ -12,6 +12,11 @@ export type operationFlowGridProps = {
     operationLines: operationLines;
 };
 
+type gridState = {
+    dragging: boolean;
+    draggingItem: Layout | undefined;
+}
+
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
@@ -26,6 +31,13 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
     useEffect(() => {
         console.log('Effect Layout', currentLayout);
     }, [currentLayout]);
+
+    // States
+    const [gridState, setGridState] = useState<gridState>({
+        dragging: false,
+        draggingItem: undefined,
+    });
+
     //====================================================================================================//
     // Line Class Adjustment
     const isInvisible = (type: 'main' | 'sub') => {
@@ -112,6 +124,16 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
     };
     //====================================================================================================//
     // Grid Operations
+    // Function to handle when dragging starts
+    const onDragStart = (newItem: Layout) => {
+        setGridState({
+            dragging: true,
+            draggingItem: newItem,
+        });
+        console.log('X', gridState.draggingItem?.x, 'Y', gridState.draggingItem?.y);
+    };
+
+    // Function to handle when dragging ends
     const onDragEnd = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
         console.log('Drag End', layout, oldItem, newItem);
 
@@ -136,6 +158,10 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         else return;
         // console.log('End Layout', endLayout);
 
+        setGridState({
+            dragging: false,
+            draggingItem: undefined,
+        });
         setLayout(endLayout);
 
     };
@@ -150,7 +176,9 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
             />
             <div className='graph-line bg-white w-[70%]' style={{}}></div>
             <div className='grid-container' style={{}}>
-                <ResponsiveGridLayout onDragStop={(layout, oldItem, newItem) => onDragEnd(layout, oldItem, newItem)} 
+                <ResponsiveGridLayout 
+                    onDrag={(layout, oldItem, newItem) => { onDragStart(newItem); }}
+                    onDragStop={(layout, oldItem, newItem) => { onDragEnd(layout, oldItem, newItem); } }
                     cols={{lg: currentMaxLength, md: currentMaxLength, sm: currentMaxLength, xs: currentMaxLength, xxs: currentMaxLength}}
                     isResizable={false} isDraggable={true}
                     layouts={{lg: currentLayout, md: currentLayout, sm: currentLayout, xs: currentLayout, xxs: currentLayout}}
@@ -159,26 +187,30 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
                     {
                         currentGridArray.map((line, index) => {
                             return (
-                                <div key={`${line.id ? line.id : 'placeholder'}-${index}`} data-grid={{
-                                    x: line.sequence - 1,
-                                    y: index,
-                                    w: 1,
-                                    h: 1,
-                                    i: line.id ? line.id : line.sequence.toString(),
-                                }}
-                                className={
-                                    joinClassNames(
-                                        line.shapeType != 'placeholder' ? 'drag-handle' : ''
-                                    )
-                                }
-                                style={{width: '0px'}}>
+                                <div key={`${line.id ? line.id : 'placeholder'}-${index}`} 
+                                    data-grid={{
+                                        x: line.sequence - 1,
+                                        y: Math.floor(index / currentMaxLength),
+                                        w: 1,
+                                        h: 1,
+                                        i: line.id ? line.id : line.sequence.toString(),
+                                    }}
+                                    className={
+                                        joinClassNames(
+                                            line.shapeType != 'placeholder' ? 'drag-handle' : ''
+                                        )
+                                    }
+                                    style={{width: '0px'}}>
                                     <div className={
                                         joinClassNames(
-                                            line.shapeType != 'placeholder' ? 'circle w-[64px] h-[64px] bg-white mr-0' : 'circle w-[64px] h-[64px] bg-red-500 mr-0',
+                                            line.shapeType != 'placeholder' ? 'circle w-[64px] h-[64px] bg-white mr-0' : 
+                                                !gridState.dragging ?  'placeholder w-[64px] h-[64px] mr-0' :
+                                                    gridState.draggingItem?.x === line.sequence - 1 && gridState.draggingItem?.y === Math.floor(index / currentMaxLength) ? 'circle w-[64px] h-[64px] bg-red-500/80 mr-0' : '',
                                         )
                                     }
                                     >
                                         <h1>{line.id}</h1>
+                                        {/* <h1 className=' text-green-500'>{line.sequence - 1} {Math.floor(index / currentMaxLength)}</h1> */}
                                     </div>
                                 </div>
                             );
