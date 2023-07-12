@@ -1,5 +1,5 @@
 import { Line } from '@/components/common/Line';
-import { operationLines, operationList } from '@/components/operation-flow/OperationFlow';
+import { operationLines, operationList } from '@/components/operation-flow-demo/OperationFlow';
 import { joinClassNames, randomId } from '@/utils/String';
 
 import { Droppable, Draggable ,DragDropContext, DropResult } from 'react-beautiful-dnd';

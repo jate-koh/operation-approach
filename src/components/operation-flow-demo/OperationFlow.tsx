@@ -1,6 +1,6 @@
-import { FlowHead } from '@/components/operation-flow/FlowHead';
-import { FlowTail } from '@/components/operation-flow/FlowTail';
-import { FlowBodyGroup } from '@/components/operation-flow/body/FlowBodyGroup';
+import { FlowHead } from '@/components/operation-flow-demo/FlowHead';
+import { FlowTail } from '@/components/operation-flow-demo/FlowTail';
+import { FlowBodyGroup } from '@/components/operation-flow-demo/body/FlowBodyGroup';
 
 import { useState } from 'react';
 import { DndProvider } from 'react-dnd';

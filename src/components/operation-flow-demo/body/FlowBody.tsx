@@ -1,4 +1,4 @@
-import { operationList } from '@/components/operation-flow/OperationFlow';
+import { operationList } from '@/components/operation-flow-demo/OperationFlow';
 import { Line } from '@/components/common/Line';
 import { joinClassNames } from '@/utils/String';
 import React, { useRef, useState } from 'react';

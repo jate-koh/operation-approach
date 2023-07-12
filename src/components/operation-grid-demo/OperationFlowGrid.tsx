@@ -1,8 +1,8 @@
-import { operationJSON, operationLines, operationList } from '@/components/operation-flow/OperationFlow';
+import { operationJSON, operationLines, operationList } from '@/components/operation-flow-demo/OperationFlow';
 import { findMaxSequence, processLines, reorderLines, 
     createGridArray, handleOverflow, reorderCols, 
     insertColumns, extendLine
-} from '@/components/operation-grid/GridHelper';
+} from '@/components/operation-grid-demo/GridHelper';
 import { ShapeTextBox } from '@/components/common/ShapeTextBox';
 import { joinClassNames } from '@/utils/String';
 
@@ -67,7 +67,7 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
             case 'circle':
                 return 'circle w-[64px] h-[64px] bg-white';
             case 'diamond':
-                return 'diamond w-[64px] h-[64px] bg-white';
+                return 'diamond w-[60px] h-[60px] bg-white';
             case 'placeholder':
                 return 'placeholder w-[64px] h-[64px]';
             default:
@@ -81,9 +81,6 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
 
     //====================================================================================================//
     // Grid Operations
-    const addLine = () => {
-    };
-
     // Function to handle when dragging starts
     const onDragStart = (newItem: Layout) => {
         setGridState({
@@ -97,6 +94,11 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
     const onDragEnd = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
         console.log('Drag End', layout, oldItem, newItem);
 
+        setGridState({
+            dragging: false,
+            draggingItem: undefined,
+        });
+
         let hasChangedCols: boolean = oldItem.x !== newItem.x;
         let moveToNewRow: boolean = newItem.y >= amountOfLines;
         let result: Layout[] | undefined;
@@ -106,6 +108,7 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         // if (moveToNewRow) {
         //     console.log('Move to New Row');
         // }
+
         // Handle Overflow, if new item changes column
         if (hasChangedCols) {
             result = handleOverflow(layout, currentMaxLength);
@@ -117,67 +120,75 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         if (result) endLayout = insertColumns(endLayout, result, newItem.x);
         else return;
         // console.log('End Layout', endLayout);
-
-        setGridState({
-            dragging: false,
-            draggingItem: undefined,
-        });
         setLayout(endLayout);
-
     };
 
     //====================================================================================================//
 
     return (
-        <div className='flex items-center w-[80%]'>
+        <div className='flex items-center w-[80%] min-h-screen'>
+            {/* Header */}
             <ShapeTextBox
                 shapeType='rectangle' text={'Header'} hasSolid={{enabled: true}}
                 textClassName='text-black' shrinkable={true} className='w-[256px] h-[128px]'
             />
+
+            {/* Static Main Line */}
             <div className='graph-line bg-white w-[70%]' style={{}} />
-            <div className='grid-container' style={{}}>
-                <ResponsiveGridLayout 
-                    onDrag={(layout, oldItem, newItem) => { onDragStart(newItem); }}
-                    onDragStop={(layout, oldItem, newItem) => { onDragEnd(layout, oldItem, newItem); } }
-                    cols={{lg: currentMaxLength, md: currentMaxLength, sm: currentMaxLength, xs: currentMaxLength, xxs: currentMaxLength}}
-                    isResizable={false} isDraggable={true}
-                    layouts={{lg: currentLayout, md: currentLayout, sm: currentLayout, xs: currentLayout, xxs: currentLayout}}
-                    compactType={'vertical'}
-                    rowHeight={64} draggableHandle='.drag-handle' >
-                    {
-                        currentGridArray.map((line, index) => {
-                            return (
-                                <div key={`${line.id ? line.id : 'placeholder'}-${index}`} 
-                                    data-grid={{
-                                        x: line.sequence - 1,
-                                        y: Math.floor(index / currentMaxLength),
-                                        w: 1,
-                                        h: 1,
-                                        i: line.id ? line.id : line.sequence.toString(),
-                                    }}
-                                    className={
-                                        joinClassNames(
-                                            line.shapeType != 'placeholder' ? 'drag-handle' : ''
-                                        )
-                                    }
-                                    style={{width: '0px'}}>
-                                    <div className={
-                                        joinClassNames(
-                                            line.shapeType != 'placeholder' ? 'circle w-[64px] h-[64px] bg-white mr-0' : 
-                                                !gridState.dragging ?  'placeholder w-[64px] h-[64px] mr-0' :
-                                                    gridState.draggingItem?.x === line.sequence - 1 && gridState.draggingItem?.y === Math.floor(index / currentMaxLength) ? 'circle w-[64px] h-[64px] bg-red-500/80 mr-0' : '',
-                                        )
-                                    }
-                                    >
-                                        <h1>{line.id}</h1>
-                                        {/* <h1 className=' text-green-500'>{line.sequence - 1} {Math.floor(index / currentMaxLength)}</h1> */}
+
+            {/* Graph Body */}
+            <div className='graph-body-container'>
+
+                {/* Column */}
+                {/* <div className='absolute top-0 left-0 w-[100%] h-5 bg-white' /> */}
+
+                {/* Grid Container */}
+                <div className='grid-container' style={{}}>
+                    <ResponsiveGridLayout 
+                        onDrag={(layout, oldItem, newItem) => { onDragStart(newItem); }}
+                        onDragStop={(layout, oldItem, newItem) => { onDragEnd(layout, oldItem, newItem); } }
+                        cols={{lg: currentMaxLength, md: currentMaxLength, sm: currentMaxLength, xs: currentMaxLength, xxs: currentMaxLength}}
+                        isResizable={false} isDraggable={true}
+                        layouts={{lg: currentLayout, md: currentLayout, sm: currentLayout, xs: currentLayout, xxs: currentLayout}}
+                        compactType={'vertical'} measureBeforeMount={true}
+                        rowHeight={64} draggableHandle='.drag-handle' >
+                        {
+                            currentGridArray.map((line, index) => {
+                                return (
+                                    <div key={`${line.id ? line.id : 'placeholder'}-${index}`} 
+                                        data-grid={{
+                                            x: line.sequence - 1,
+                                            y: Math.floor(index / currentMaxLength),
+                                            w: 1,
+                                            h: 1,
+                                            i: line.id ? line.id : line.sequence.toString(),
+                                        }}
+                                        className={
+                                            joinClassNames(
+                                                line.shapeType != 'placeholder' ? 'drag-handle' : ''
+                                            )
+                                        }
+                                        style={{width: '0px'}}>
+                                        <div className={
+                                            joinClassNames(
+                                                line.shapeType != 'placeholder' ? matchShapeClass(line.shapeType) : 
+                                                    !gridState.dragging ?  'placeholder w-[64px] h-[64px] mr-0' :
+                                                        gridState.draggingItem?.x === line.sequence - 1 && gridState.draggingItem?.y === Math.floor(index / currentMaxLength) ? 'circle w-[64px] h-[64px] bg-red-500/80 mr-0' : '',
+                                            )
+                                        }
+                                        >
+                                            <h1>{line.id}</h1>
+                                            {/* <h1 className=' text-green-500'>{line.sequence - 1} {Math.floor(index / currentMaxLength)}</h1> */}
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })
-                    }
-                </ResponsiveGridLayout>   
+                                );
+                            })
+                        }
+                    </ResponsiveGridLayout>   
+                </div>
             </div>
+
+            {/* Dynamic Add Line Button */}
             <div className='w-[5%] add-line-wrapper hover:bg-white'>
                 {/* <div className='' /> */}
                 <button className='add-button bg-white' 
@@ -185,11 +196,15 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
                         setMaxLength(currentMaxLength + 1);
                         setOperationLines(extendLine(operationLinesState));
                         setGridArray(createGridArray(operationLinesState));
+                        // let res = handleOverflow(currentLayout, currentMaxLength);
+                        // if (res) setLayout(res);
                     }} 
                 >
                     <h1 className='text-black'>+</h1>
                 </button>
             </div>
+
+            {/* Tail */}
             <ShapeTextBox 
                 shapeType='rectangle' text={'Tail'} hasSolid={{enabled: true}}
                 textClassName='text-black' shrinkable={true} className='w-[256px] h-[128px]'

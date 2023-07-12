@@ -1,4 +1,4 @@
-import { OperationFlowGrid } from '@/components/operation-grid/OperationFlowGrid';
+import { OperationFlowGrid } from '@/components/operation-grid-demo/OperationFlowGrid';
 import { testProps } from '@/pages/TestProps';
 
 export function PreviewPage() {

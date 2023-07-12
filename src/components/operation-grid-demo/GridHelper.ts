@@ -1,4 +1,4 @@
-import { operationLines, operationJSON } from '@/components/operation-flow/OperationFlow';
+import { operationLines, operationJSON } from '@/components/operation-flow-demo/OperationFlow';
 import { randomId } from '@/utils/String';
 
 import { Layout } from 'react-grid-layout';

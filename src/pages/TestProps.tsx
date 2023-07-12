@@ -1,4 +1,4 @@
-import { operationFlowProps } from '@/components/operation-flow/OperationFlow';
+import { operationFlowProps } from '@/components/operation-flow-demo/OperationFlow';
 
 export const testProps: operationFlowProps = {
     operationLines: [
