@@ -66,13 +66,14 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
             {/* Graph Body */}
             <div className='graph-body'>
                 <h1 className='text-red-500'>HI</h1>
-
                 {/* Cols Extender */}
                 <div className='col-ext-wrapper'>
-                    <div className='col-extender bg-red-500 hover:cursor-pointer'>
-                        <button className='add-button'>
-                            <h1>+</h1>
-                        </button>
+                    <div className='col-ext-hovzone'>
+                        <div className='col-extender bg-red-500'>
+                            <button className='add-button bg-red-500'>
+                                <h1 className='text-black'>+</h1>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

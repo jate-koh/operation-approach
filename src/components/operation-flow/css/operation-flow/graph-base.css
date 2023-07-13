@@ -23,7 +23,7 @@
     .graph-container {
       flex-shrink: 0;
       min-width: 768px;
-      @apply smooth-anim
+      @apply smooth-anim-[300]
     }
   }
   
@@ -31,18 +31,17 @@
   /* Graph Background Components */
   .graph-bg {
     position: absolute;
-    z-index: -2;
   }
 
   .graph-container .graph-start-node {
-    @apply graph-bg smooth-anim;
+    @apply graph-bg smooth-anim-[300];
     top: 50%;
     left: 0;
     transform: translateY(-50%);
   }
 
   .graph-container .graph-end-node {
-    @apply graph-bg smooth-anim;
+    @apply graph-bg smooth-anim-[300];
     top: 50%;
     right: 0;
     transform: translateY(-50%);
@@ -60,26 +59,20 @@
     }
   }
 
-
+  /* ==================== */
   /* Graph Line */
   .line-base {
-    position: absolute;
-    z-index: -3;
-    height: 0.5rem; /* 8px */;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    transform: translateY(-50%);
+    height: 0.5rem; /* 8px */
   }
 
   .graph-container .graph-line {
     position: absolute;
     z-index: -3;
-    height: 0.5rem; /* 8px */;
     top: 50%;
     left: 0;
     width: 100%;
     transform: translateY(-50%);
+    @apply line-base;
   }
 
   /* ==================== */
@@ -93,7 +86,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: -2;
   }
 
   .graph-body-container {
@@ -127,15 +119,29 @@
 
   .graph-body .col-ext-wrapper {
     position: absolute;
-    z-index: -2;
     right: 0;
+    z-index: 0;
     height: 100%;
     width: 28%;
-    @apply smooth-anim
+    @apply smooth-anim-[300];
   }
 
-  /* From 1921px to 2560px */
-  @media (min-width: 1921px) and (max-width: 2560px) {
+  /* More than 2560px */
+  @media (min-width: 2561px) {
+    .graph-body .col-ext-wrapper {
+      transform: scaleX(0.7) translateX(20%);
+    }
+  }
+
+  /* From 2161px to 2560px */
+  @media (min-width: 2161px) and (max-width: 2560px) {
+    .graph-body .col-ext-wrapper {
+      transform: scaleX(0.75) translateX(13%);
+    }
+  }
+
+  /* From 1921px to 2160px */
+  @media (min-width: 1921px) and (max-width: 2160px) {
     .graph-body .col-ext-wrapper {
       transform: scaleX(0.9) translateX(5%);
     }
@@ -150,7 +156,7 @@
 
   /* From 1420px to 1549px */
   @media (min-width: 1420px) and (max-width: 1549px) {
-    .graph-body .col-ext-wrapper {
+    .graph-body .col-ext-wrapper{
       transform: scaleX(1.05) translateX(-2%);
     }
   }
@@ -164,39 +170,86 @@
 
   /* ==================== */
   /* Cols Extender Components Button */
-  .col-ext-wrapper .col-extender {
+  .col-ext-wrapper .col-ext-hovzone {
     position: absolute;
-    z-index: 5;
-    height: 0.5rem; /* 8px */;
-    top: 50%;
-    left: 0;
     width: 100%;
+    height: 30%;
+    top: 50%;
     transform: translateY(-50%);
-  }
-
-  .col-extender:hover {
+    left: 0;
     cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
-  button.add-button {
+  .col-ext-hovzone .col-extender {
+    opacity: 0;
+    @apply line-base smooth-anim-[300];
+  }
+
+  .col-ext-hovzone:hover .col-extender {
+    @apply anim-col-ext-appear;
+  }
+
+  /* ==================== */
+  /* Cols Extender Components Button */
+  .col-extender button.add-button {
     width: 0.5rem; /* 8px */;
     height: 0.5rem; /* 8px */;
-    z-index: 1;
-    border-radius: 50%;
-    @apply circle;
+    @apply circle smooth-anim-[500];
   }
 
-  button.add-button h1 {
-    padding: 0;
+  /* More than 2560px */
+  @media (min-width: 2561px) {
+    button.add-button {
+      margin-left: 15%;
+    }
+  }
+
+  /* From 2161px to 2560px */
+  @media (min-width: 2161px) and (max-width: 2560px) {
+    button.add-button {
+      margin-left: 13%;
+    }
+  }
+
+  /* From 1921px to 2160px */
+  @media (min-width: 1921px) and (max-width: 2160px) {
+    button.add-button {
+      margin-left: 12%;
+    }
+  }
+
+  /* From 1550px to 1920px */
+  @media (min-width: 1550px) and (max-width: 1920px) {
+    button.add-button {
+      margin-left: 10%;
+    }
+  }
+
+  /* From 1420px to 1549px */
+  @media (min-width: 1420px) and (max-width: 1549px) {
+    button.add-button{
+    }
+  }
+
+  /* Lower than 1419px */
+  @media (max-width: 1419px) {
+    button.add-button{
+    }
+  }
+
+  .col-extender button.add-button h1 {
     opacity: 0;
     font-size: 0rem;
   }
 
-  .add-line-wrapper:hover button.add-button {
+  .col-ext-hovzone:hover button.add-button {
     cursor: pointer;
-    @apply animate-add-button;
+    @apply anim-add-button;
   }
-
+  
   /* ==================== */
-
 }

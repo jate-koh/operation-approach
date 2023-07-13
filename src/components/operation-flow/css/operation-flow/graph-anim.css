@@ -1,13 +1,40 @@
 
 @layer components {
 
-    .smooth-anim {
+    .smooth-anim-\[150\] {
         transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-duration: 150ms;
     }
 
-    .animate-add-button {
+    .smooth-anim-\[300\] {
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+    }
+
+    .smooth-anim-\[500\] {
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 500ms;
+    }
+
+    .anim-col-ext-appear {
+        animation: col-ext-appear 1s
+            ease-in-out forwards;   
+    }
+
+    @keyframes col-ext-appear {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }  
+    }
+
+    .anim-add-button {
         position: absolute;
         animation: add-button-anim 1s
             ease-in-out forwards;
@@ -18,19 +45,17 @@
             opacity: 0;
             width: 0.5rem;
             height: 0.5rem;
-            right: 50%;
         }
 
         to {
             opacity: 1;
-            position: absolute;
-            width: 2rem;
-            height: 2rem;
-            right: 4%
+            width: 1.5rem;
+            height: 1.5rem;
+            transform: translateX(20%) translateY(-35%);
         }
     }
 
-    .animate-add-button h1 {
+    .anim-add-button h1 {
         animation: add-button-text-anim 1s
             ease-in-out forwards;
     }
@@ -43,7 +68,7 @@
 
         to {
             opacity: 1;
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
     }
 
