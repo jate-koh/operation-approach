@@ -1,0 +1,52 @@
+
+@layer components {
+
+    .animate-float-in {
+        animation: float-in 2s ease-in-out;
+    }
+
+    .animate-fade-in {
+        animation: fade-in 1s ease-in-out;
+    }
+
+    .animate-fade-float-in {
+        animation: fade-in 2s ease, float-in 1s ease;
+    }
+
+    .animate-fade-float-in-1 {
+        animation-delay: 1s;
+        animation: fade-in 2s ease, float-in 2s ease;
+    }
+
+    .animate-fade-float-in-2 {
+        animation-delay: 2s;
+        animation: fade-in 2s ease, float-in 3s ease;
+    }
+
+    .animate-fade-float-in-3 {
+        animation-delay: 3s;
+        animation: fade-in 2s ease, float-in 4s ease;
+    }
+
+    @keyframes float-in {
+        from {
+            transform: translateY(256px);
+        }
+
+        to {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes fade-in {
+        from {
+            @apply opacity-[0];
+        }
+
+        to {
+            transform: opacity(1); 
+        }
+    }
+
+
+}

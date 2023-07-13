@@ -1,0 +1,202 @@
+
+/* Shape */
+@import './shape.css';
+
+/* Animation */
+@import '../dashie/anim/scaler.css';
+@import './graph-anim.css';
+
+@layer components {
+
+  /* ==================== */
+  /* Whole Graph Wrapper Container */
+  .graph-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 70%;
+    min-height: 384px;
+  }
+
+  /* Lower than 1419px */
+  @media (max-width: 1419px) {
+    .graph-container {
+      flex-shrink: 0;
+      min-width: 768px;
+      @apply smooth-anim
+    }
+  }
+  
+  /* ==================== */
+  /* Graph Background Components */
+  .graph-bg {
+    position: absolute;
+    z-index: -2;
+  }
+
+  .graph-container .graph-start-node {
+    @apply graph-bg smooth-anim;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .graph-container .graph-end-node {
+    @apply graph-bg smooth-anim;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    min-width: 64px;
+    min-height: 64px;
+  }
+  /* Lower than 1419px */
+  @media (max-width: 1419px) {
+    .graph-container .graph-start-node {
+      transform: scale(0.8) translateX(-15%) translateY(-60%)
+    }
+
+    .graph-container .graph-end-node {
+      transform: scale(0.8) translateX(15%) translateY(-60%)
+    }
+  }
+
+
+  /* Graph Line */
+  .line-base {
+    position: absolute;
+    z-index: -3;
+    height: 0.5rem; /* 8px */;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+  }
+
+  .graph-container .graph-line {
+    position: absolute;
+    z-index: -3;
+    height: 0.5rem; /* 8px */;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+  }
+
+  /* ==================== */
+  /* Graph Body Components */
+  .graph-container .graph-body {
+    position: absolute;
+    top: 50%;
+    transform:  translateY(-50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -2;
+  }
+
+  .graph-body-container {
+    position: relative;
+    flex-grow: 1;
+    justify-content: center;
+  }
+
+  .grid-container {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    z-index: 1;
+  }
+    
+  .grid-container .react-grid-layout {
+    width: 95%;
+  }
+
+  /* ==================== */
+  /* Cols Adder */
+  .add-line-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    /* @apply line-base; */
+  }
+
+  .graph-body .col-ext-wrapper {
+    position: absolute;
+    z-index: -2;
+    right: 0;
+    height: 100%;
+    width: 28%;
+    @apply smooth-anim
+  }
+
+  /* From 1921px to 2560px */
+  @media (min-width: 1921px) and (max-width: 2560px) {
+    .graph-body .col-ext-wrapper {
+      transform: scaleX(0.9) translateX(5%);
+    }
+  }
+
+  /* From 1550px to 1920px */
+  @media (min-width: 1550px) and (max-width: 1920px) {
+    .graph-body .col-ext-wrapper {
+      transform: scaleX(1);
+    }
+  }
+
+  /* From 1420px to 1549px */
+  @media (min-width: 1420px) and (max-width: 1549px) {
+    .graph-body .col-ext-wrapper {
+      transform: scaleX(1.05) translateX(-2%);
+    }
+  }
+
+  /* Lower than 1419px */
+  @media (max-width: 1419px) {
+    .graph-body .col-ext-wrapper {
+      transform: scaleX(1.1) translateX(-3%);
+    }
+  }
+
+  /* ==================== */
+  /* Cols Extender Components Button */
+  .col-ext-wrapper .col-extender {
+    position: absolute;
+    z-index: 5;
+    height: 0.5rem; /* 8px */;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+  }
+
+  .col-extender:hover {
+    cursor: pointer;
+  }
+
+  button.add-button {
+    width: 0.5rem; /* 8px */;
+    height: 0.5rem; /* 8px */;
+    z-index: 1;
+    border-radius: 50%;
+    @apply circle;
+  }
+
+  button.add-button h1 {
+    padding: 0;
+    opacity: 0;
+    font-size: 0rem;
+  }
+
+  .add-line-wrapper:hover button.add-button {
+    cursor: pointer;
+    @apply animate-add-button;
+  }
+
+  /* ==================== */
+
+}
