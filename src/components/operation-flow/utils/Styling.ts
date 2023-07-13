@@ -4,7 +4,7 @@ import { joinStrings } from './String';
 
 // Constant
 // WARNING: Using TailwindCSS
-const internalStyling = {
+export const internalStyling = {
     shape: [
         'circle',
         'square',
@@ -20,15 +20,17 @@ const internalStyling = {
     color: {
         default: 'bg-white',
     },
-}
+};
 
 //========================================================================
 export const lineIsInvis = ( operationLine: OperationLine ): string => {
     return operationLine.type === 'sub' ? 'invisible' : ''; // If the line is a subline, return 'invisible' to hide it
 }
 
-export const matchInternalShape = ( operationJSON: OperationJSON, nodeSize?: 'sm' | 'md' | 'lg', nodeColor?: string ): string => {
-    let shape = operationJSON.shapeType;
+export const matchInternalShape = ( nodeShape: OperationJSON | string, nodeSize?: 'sm' | 'md' | 'lg', nodeColor?: string ): string => {
+    let shape: string = '';
+    if ( typeof nodeShape === 'string' ) shape = nodeShape;
+    if ( typeof nodeShape === 'object' && nodeShape.shapeType) shape = nodeShape.shapeType;
     let size = nodeSize ? nodeSize : 'lg';
     let color = nodeColor ? nodeColor : undefined;
 
