@@ -94,18 +94,6 @@
     justify-content: center;
   }
 
-  .grid-container {
-    position: relative;
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-    z-index: 1;
-  }
-    
-  .grid-container .react-grid-layout {
-    width: 95%;
-  }
-
   /* ==================== */
   /* Cols Adder */
   .add-line-wrapper {
@@ -196,6 +184,7 @@
   /* ==================== */
   /* Cols Extender Components Button */
   .col-extender button.add-button {
+    position: absolute;
     width: 0.5rem; /* 8px */;
     height: 0.5rem; /* 8px */;
     @apply circle smooth-anim-[500];
@@ -232,12 +221,14 @@
   /* From 1420px to 1549px */
   @media (min-width: 1420px) and (max-width: 1549px) {
     button.add-button{
+      left: 0.5rem;
     }
   }
 
   /* Lower than 1419px */
   @media (max-width: 1419px) {
     button.add-button{
+      left: 0.1rem;
     }
   }
 

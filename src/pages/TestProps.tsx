@@ -1,9 +1,23 @@
-import { operationFlowProps } from '@/components/operation-flow-demo/OperationFlow';
+import { OperationFlowProps } from '@/components/operation-flow/utils/types/Props';
+import { randomId } from '@/utils/String';
 
-export const testProps: operationFlowProps = {
+function randomNodeId(): string {
+    // Randomize the ID of the node in this format: [D|E][000-099]{3}
+    let char = ['D', 'E'];
+    let id: string = char[Math.floor(Math.random() * char.length)];
+    id += Math.floor(Math.random() * 100).toString().padStart(3, '0');
+    return id;
+}
+
+function randomShape(): string {
+    let shape = ['diamond', 'circle'];
+    return shape[Math.floor(Math.random() * shape.length)];
+}
+
+export const testProps: OperationFlowProps = {
     operationLines: [
         {
-            line: 'FEdcx1',
+            line: randomId(10, 20),
             type: 'main',
             operationList: [
                 {
@@ -44,41 +58,47 @@ export const testProps: operationFlowProps = {
             ],
         },
         {
-            line: 'Dcd1x2',
+            line: randomId(10, 20),
             type: 'sub',
             operationList: [
                 {
                     sequence: 1,
-                    id: 'D003',
-                    shapeType: 'diamond',
+                    id: randomNodeId(),
+                    shapeType: randomShape(),
                 },
                 {
                     sequence: 4,
-                    id: 'E006',
-                    shapeType: 'circle',
+                    id: randomNodeId(),
+                    shapeType: randomShape(),
                 },
                 {
                     sequence: 5,
-                    id: 'E007',
-                    shapeType: 'circle',
+                    id: randomNodeId(),
+                    shapeType: randomShape(),
                 },
             ]
         },
         {
-            line: 'CD2fs5',
+            line: randomId(10, 20),
             type: 'sub',
             operationList: [
                 {
                     sequence: 2,
-                    id: 'D004',
-                    shapeType: 'diamond',
+                    id: randomNodeId(),
+                    shapeType: randomShape(),
                 }
             ]
         },
         {
             line: 'C27fsE4',
             type: 'sub',
-            operationList: [],
+            operationList: [
+                {
+                    sequence: 1,
+                    id: 'D007',
+                    shapeType: 'diamond',
+                },
+            ],
         },
     ],
     headText: 'ปฎิบัติการทางบก',

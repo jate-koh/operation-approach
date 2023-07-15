@@ -1,8 +1,11 @@
+// Dependencies Imports
+import { Layout } from 'react-grid-layout';
+
 // Files Imports
-import { OperationLines } from './types/Props';
+import { OperationJSON, OperationLines } from './types/Props';
 
 //========================================================================
-// Basic Functions
+// Basic Functions for Operation Lines
 export function findMaxSequence(operationLines: OperationLines): number {
     let highestSeq = 0;
     operationLines.forEach((line) => {
@@ -24,4 +27,28 @@ export function findMinSequence(operationLines: OperationLines): number {
     });
     return minSequence;
 }
+
+export function getJSON(operationLines: OperationLines, id: string): OperationJSON | undefined {
+    let json: OperationJSON | undefined = undefined;
+    operationLines.forEach((line) => {
+        line.operationList.forEach((operation) => {
+            if (operation.id === id) {
+                json = operation;
+            }
+        });
+    });
+    return json;
+}
+//========================================================================
+// Basic Functions for Layout
+export function findMaxY(Layout: Layout[]) {
+    let maxY = 0;
+    Layout.forEach((layout) => {
+        if (layout.y > maxY) {
+            maxY = layout.y;
+        }
+    });
+    return maxY;
+}
+
 //========================================================================

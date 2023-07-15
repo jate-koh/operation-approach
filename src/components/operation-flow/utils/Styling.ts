@@ -27,8 +27,9 @@ export const lineIsInvis = ( operationLine: OperationLine ): string => {
     return operationLine.type === 'sub' ? 'invisible' : ''; // If the line is a subline, return 'invisible' to hide it
 }
 
-export const matchInternalShape = ( nodeShape: OperationJSON | string, nodeSize?: 'sm' | 'md' | 'lg', nodeColor?: string ): string => {
+export const matchInternalShape = ( nodeShape: OperationJSON | string | undefined, nodeSize?: 'sm' | 'md' | 'lg', nodeColor?: string ): string => {
     let shape: string = '';
+    if ( !nodeShape ) shape = 'circle';
     if ( typeof nodeShape === 'string' ) shape = nodeShape;
     if ( typeof nodeShape === 'object' && nodeShape.shapeType) shape = nodeShape.shapeType;
     let size = nodeSize ? nodeSize : 'lg';
@@ -53,7 +54,8 @@ export const matchInternalShape = ( nodeShape: OperationJSON | string, nodeSize?
     return joinStrings(
         shape,
         internalStyling.base[size],
-        color ? color : internalStyling.color.default,
+        color ? color : 
+            shape === 'placeholder' ? 'bg-red-500/50' : internalStyling.color.default,
     );
 };
 //========================================================================
