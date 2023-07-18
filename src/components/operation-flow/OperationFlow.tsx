@@ -1,5 +1,5 @@
 // Dependencies Imports
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import RGL, { Responsive, WidthProvider, Layout } from 'react-grid-layout';
 
 // Files Imports
@@ -88,7 +88,7 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                     <div className='grid-container'>
                         <GridLayout
                             onDrag={(layout, oldItem, newItem) => {
-                                // setDragging(true);
+                                setDragging(true);
                                 console.log('on Drag Col 1: ', layout, oldItem, newItem);
                             }}
                             onDragStop={(layout, oldItem, newItem) => {
@@ -100,20 +100,18 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                                 console.log('on Drop Col 1: ', layout, item);
                             }}
                             isDroppable={true} isDraggable={true}
-                            cols={gridState.currentCols} rowHeight={50}
-                            draggableHandle='.drag-handle' 
-                            compactType={null}
+                            cols={gridState.currentCols} rowHeight={50} draggableHandle='.drag-handle' 
+                            compactType={null} useCSSTransforms={true}
                             style={{
                                 position: 'absolute',
                                 top: '50%',
                                 transform: 'translateY(-50%)',
                             }} 
-                            useCSSTransforms={true}
                         >
                             {
-                                gridState.valueLayout?.map((item, index) => {
+                                gridState.valueLayout?.map((item, index) => { 
                                     return (
-                                        <div key={`${item.i}-${randomId(5, 10)}`}
+                                        <div key={`item-${item.i}`}
                                             draggable={true}
                                             data-grid={{
                                                 x: item.x,
@@ -141,55 +139,6 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                             }
                         </GridLayout>
                     </div>
-                    {/* <div className='grid-container'>
-                        <GridLayout
-                            onDrag={(layout, oldItem, newItem) => {}}
-                            onDragStop={(layout, oldItem, newItem) => {}}
-                            onDrop={(layout, item, event) => {
-                                console.log('Dropped');
-                            }}
-                            cols={gridState.currentCols}
-                            rowHeight={50}
-                            isDroppable={true}
-                            draggableHandle='.drag-handle'
-                            compactType={null}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                transform: 'translateY(-50%)',
-                            }}
-                        >
-                            {
-                                gridState.valueLayout?.map((item, index) => {
-                                    return (
-                                        <div key={`${item.i}-${randomId(5, 10)}`}
-                                            draggable={true}
-                                            data-grid={{
-                                                x: item.x,
-                                                y: item.y,
-                                                w: item.w,
-                                                h: item.h,
-                                                i: item.i,
-                                            }}
-                                            className={joinClassNames(
-                                                'drag-handle', 'droppable-element'
-                                            )}
-                                        >
-                                            <div className={
-                                                joinClassNames(
-                                                    getJSON(flowState.operationLines, item.i) === undefined ? '' : matchInternalShape(getJSON(flowState.operationLines, item.i), 'md'),
-                                                )
-                                            }>
-                                                <h1>
-                                                    {item.i}
-                                                </h1>
-                                            </div>
-                                        </div>
-                                    );
-                                })
-                            }å
-                        </GridLayout>
-                    </div> */}
 
                     {/* Placeholder Grid */}
                     <div className='grid-placeholder-container'>
@@ -261,3 +210,5 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
         </div>
     );
 }
+
+export default OperationFlow;
