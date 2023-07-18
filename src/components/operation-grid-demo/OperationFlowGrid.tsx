@@ -126,7 +126,7 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
     //====================================================================================================//
 
     return (
-        <div className='flex items-center w-[80%] min-h-screen'>
+        <div className=''>
             {/* Header */}
             <ShapeTextBox
                 shapeType='rectangle' text={'Header'} hasSolid={{enabled: true}}
@@ -212,6 +212,8 @@ export function OperationFlowGrid({ operationLines }: operationFlowGridProps ) {
         </div>
     );
 }
+
+export default OperationFlowGrid;
 
 // <ReponsiveGridLayout onDragStop={(layout) => onDragEnd(layout)} cols={{lg: 1, md: 1, sm: 1}} 
 //     rowHeight={64} className='layout' draggableHandle='.drag-handle' >
