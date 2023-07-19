@@ -15,10 +15,10 @@ import { joinClassNames, randomId } from './utils/String';
 import './css/index.css';
 
 // Constants and Types
-const ResponsiveGridLayout = WidthProvider(Responsive);
 const GridLayout = WidthProvider(RGL);
 
 type FlowState = {
+    // init: boolean;
     headText: string;
     tailText: string;
     operationLines: OperationLines;
@@ -40,20 +40,42 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
     //=======================================================================================================
     // React Hooks
     const [flowState, setFlowState] = useState<FlowState>({
-        headText: headText,
-        tailText: tailText,
-        operationLines: reorderMiddleLines(prepLines(operationLines)),
+        headText: '',
+        tailText: '',
+        operationLines: [],
     });
 
     const [gridState, setGridState] = useState<GridState>({
-        valueLayout: createLayout(operationLines),
-        placeholderLayout: createPlaceholderLayout(operationLines),
-        currentCols: findMaxSequence(operationLines) - findMinSequence(operationLines) + 1,
-        currentRows: operationLines.length,
+        valueLayout: undefined,
+        placeholderLayout: undefined,
+        currentCols: 0,
+        currentRows: 0,
     });
 
-    const [isDragging, setDragging] = useState<boolean>(false);
+    const [dragState, setDragState] = useState<DragState>({
+        dragging: false,
+        draggingItem: undefined,
+    });
 
+    // Run on Init
+    useEffect(() => {
+        // Init Flow State
+        setFlowState({
+            headText: headText,
+            tailText: tailText,
+            operationLines: reorderMiddleLines(prepLines(operationLines)),
+        });
+
+        // Init Grid State
+        setGridState({
+            valueLayout: createLayout(operationLines),
+            placeholderLayout: createPlaceholderLayout(operationLines),
+            currentCols: findMaxSequence(operationLines) - findMinSequence(operationLines) + 1,
+            currentRows: operationLines.length,
+        });
+    }, []);
+
+    // Run on Update
     useEffect(() => {
         console.log('Flow State: ', flowState);
         console.log('Grid State: ', gridState);
@@ -61,13 +83,29 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
     }, [flowState, gridState]);
     //=======================================================================================================
     // Action Handler
-    // const onDragStart = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+    const onDragStart = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+        setDragState({
+            ...dragState,
+            dragging: true,
+            draggingItem: newItem,
+        });
+        console.log('X', newItem.x, 'Y', newItem.y);
+    };
 
-    // };
+    const onDragStop = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+        setDragState({
+            ...dragState,
+            dragging: false,
+            draggingItem: undefined,
+        });
+        console.log('New Layout: ', layout);
 
-    // const onDragStop = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
-
-    // };
+        // Update Grid State
+        // setGridState({
+        //     ...gridState,
+        //     valueLayout: layout,
+        // });
+    };
     //=======================================================================================================
     // Render
 
@@ -88,15 +126,12 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                     <div className='grid-container'>
                         <GridLayout
                             onDrag={(layout, oldItem, newItem) => {
-                                setDragging(true);
-                                console.log('on Drag Col 1: ', layout, oldItem, newItem);
+                                onDragStart(layout, oldItem, newItem);
                             }}
                             onDragStop={(layout, oldItem, newItem) => {
-                                setDragging(false);
-                                console.log('on Drag Stop Col 1: ', layout, oldItem, newItem);
+                                onDragStop(layout, oldItem, newItem);
                             }}
                             onDrop={(layout, item) => {
-                                setDragging(false);
                                 console.log('on Drop Col 1: ', layout, item);
                             }}
                             isDroppable={true} isDraggable={true}
@@ -176,7 +211,9 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                                         >
                                             <div className={
                                                 joinClassNames(
-                                                    isDragging ? matchInternalShape('placeholder', 'md') : ''
+                                                    !dragState.dragging ? '' : 
+                                                        dragState.draggingItem && (dragState.draggingItem.x === item.x && dragState.draggingItem.y) === item.y ? 
+                                                            matchInternalShape('placeholder', 'lg') : ''
                                                 )
                                             }>
                                             </div>

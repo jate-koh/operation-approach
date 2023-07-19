@@ -68,6 +68,7 @@ export function createLayout(operationLines: OperationLines): Layout[] {
             //     w: 1,
             //     h: 1,
             // });
+            console.log(operation);
             layout.push({
                 i: operation.id ? operation.id : randomId(5, 10),
                 x: operation.sequence - minSequence,
