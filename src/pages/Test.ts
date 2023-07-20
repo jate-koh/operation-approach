@@ -1,3 +1,4 @@
+
 import { OperationFlowProps } from '@/components/operation-flow/utils/types/Props';
 import { randomId } from '@/utils/String';
 
@@ -27,36 +28,43 @@ export const testProps: OperationFlowProps = {
             type: 'main',
             operationList: [
                 {
+                    region: 0,
                     sequence: 1,
                     id: 'D001',
                     shapeType: 'diamond',
                 },
                 {
+                    region: 0,
                     sequence: 2,
                     id: 'E001',
                     shapeType: 'circle',
                 },
                 {
+                    region: 0,
                     sequence: 3,
                     id: 'E002',
                     shapeType: 'circle',
                 },
                 {
+                    region: 0,
                     sequence: 4,
                     id: 'E003',
                     shapeType: 'circle',
                 },
                 {
+                    region: 0,
                     sequence: 5,
                     id: 'D002',
                     shapeType: 'diamond',
                 },
                 {
+                    region: 0,
                     sequence: 6,
                     id: 'E005',
                     shapeType: 'circle',
                 },
                 {
+                    region: 0,
                     sequence: 7,
                     id: 'E004',
                     shapeType: 'circle',
@@ -68,16 +76,19 @@ export const testProps: OperationFlowProps = {
             type: 'sub',
             operationList: [
                 {
+                    region: 0,
                     sequence: 1,
                     id: randomNodeId(min, max),
                     shapeType: randomShape(),
                 },
                 {
+                    region: 0,
                     sequence: 4,
                     id: randomNodeId(min, max),
                     shapeType: randomShape(),
                 },
                 {
+                    region: 0,
                     sequence: 5,
                     id: randomNodeId(min, max),
                     shapeType: randomShape(),
@@ -89,6 +100,7 @@ export const testProps: OperationFlowProps = {
             type: 'sub',
             operationList: [
                 {
+                    region: 0,
                     sequence: 2,
                     id: randomNodeId(min, max),
                     shapeType: randomShape(),
@@ -100,6 +112,7 @@ export const testProps: OperationFlowProps = {
             type: 'sub',
             operationList: [
                 {
+                    region: 0,
                     sequence: 1,
                     id: 'D007',
                     shapeType: 'diamond',
