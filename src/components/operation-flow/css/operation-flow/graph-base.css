@@ -108,7 +108,7 @@
   .graph-body .col-ext-wrapper {
     position: absolute;
     right: 0;
-    z-index: 0;
+    z-index: -1;
     height: 100%;
     width: 28%;
     @apply smooth-anim-[300];
@@ -184,51 +184,22 @@
   /* ==================== */
   /* Cols Extender Components Button */
   .col-extender button.add-button {
+    z-index: 2;
     position: absolute;
     width: 0.5rem; /* 8px */;
     height: 0.5rem; /* 8px */;
     @apply circle smooth-anim-[500];
   }
 
-  /* More than 2560px */
-  @media (min-width: 2561px) {
-    button.add-button {
-      margin-left: 15%;
-    }
-  }
-
-  /* From 2161px to 2560px */
-  @media (min-width: 2161px) and (max-width: 2560px) {
-    button.add-button {
-      margin-left: 13%;
-    }
-  }
-
-  /* From 1921px to 2160px */
-  @media (min-width: 1921px) and (max-width: 2160px) {
-    button.add-button {
-      margin-left: 12%;
-    }
-  }
-
-  /* From 1550px to 1920px */
-  @media (min-width: 1550px) and (max-width: 1920px) {
-    button.add-button {
-      margin-left: 10%;
-    }
-  }
-
-  /* From 1420px to 1549px */
-  @media (min-width: 1420px) and (max-width: 1549px) {
-    button.add-button{
-      left: 0.5rem;
-    }
-  }
-
-  /* Lower than 1419px */
   @media (max-width: 1419px) {
-    button.add-button{
-      left: 0.1rem;
+    .col-extender button.add-button {
+      right: 70%;
+    }
+  }
+
+  @media (min-width: 1420px) {
+    .col-extender button.add-button {
+      right: 80%;
     }
   }
 

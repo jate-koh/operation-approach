@@ -10,7 +10,7 @@ export function FlowHead({
     return (
         <ShapeTextBox 
             shapeType='rectangle' text={text} hasSolid={{enabled: true}}
-            textClassName='text-black' shrinkable={false} className='w-[256px] h-[128px]'
+            textClassName='text-black' shrinkable={false} className='w-[150px] h-[64px]'
         />
     );
 }
