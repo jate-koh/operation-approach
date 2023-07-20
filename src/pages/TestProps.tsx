@@ -1,11 +1,17 @@
 import { OperationFlowProps } from '@/components/operation-flow/utils/types/Props';
 import { randomId } from '@/utils/String';
 
-function randomNodeId(): string {
+const min: number = 20;
+const max: number = 99;
+
+function randomNodeId(min?: number, max?: number): string {
     // Randomize the ID of the node in this format: [D|E][000-099]{3}
-    let char = ['D', 'E'];
-    let id: string = char[Math.floor(Math.random() * char.length)];
-    id += Math.floor(Math.random() * 100).toString().padStart(3, '0');
+    let id = '';
+    let prefix = ['D', 'E'];
+    let minNum = min || 0;
+    let maxNum = max || 99;
+    id += prefix[Math.floor(Math.random() * prefix.length)];
+    id += Math.floor(Math.random() * (maxNum - minNum + 1) + minNum).toString().padStart(3, '0');
     return id;
 }
 
@@ -63,17 +69,17 @@ export const testProps: OperationFlowProps = {
             operationList: [
                 {
                     sequence: 1,
-                    id: randomNodeId(),
+                    id: randomNodeId(min, max),
                     shapeType: randomShape(),
                 },
                 {
                     sequence: 4,
-                    id: randomNodeId(),
+                    id: randomNodeId(min, max),
                     shapeType: randomShape(),
                 },
                 {
                     sequence: 5,
-                    id: randomNodeId(),
+                    id: randomNodeId(min, max),
                     shapeType: randomShape(),
                 },
             ]
@@ -84,7 +90,7 @@ export const testProps: OperationFlowProps = {
             operationList: [
                 {
                     sequence: 2,
-                    id: randomNodeId(),
+                    id: randomNodeId(min, max),
                     shapeType: randomShape(),
                 }
             ]
