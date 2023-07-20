@@ -138,8 +138,10 @@ export function populateMiddle(layout: Layout[], middleIndex: number): Layout[] 
             maxRowLength = rowMap[parseInt(key)].length;
         }
     });
-    // If the most populated row is not the middle row, swap it with the middle row
-    if (maxRow !== middleIndex) rowMap = swapRow(rowMap, maxRow, middleIndex);
+    // If the most populated row is not middle row, and the middle it has population more than middle row
+    console.log('Max Row: ', maxRow, '\nMiddle Row: ', middleIndex);
+    if (maxRow !== middleIndex && rowMap[maxRow].length > rowMap[middleIndex].length) 
+        rowMap = swapRow(rowMap, maxRow, middleIndex);
 
     // Step 2 - Make the rows in the middle/inside more populated than outer rows
     // Split Row Map into 2 parts with the middle row as the divider
