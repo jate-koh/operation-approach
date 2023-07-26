@@ -5,6 +5,7 @@
 
 @import 'tailwindcss/components';
 
+@import './operation-flow/graph-group.css';
 @import './operation-flow/graph-base.css';
 @import './operation-flow/graph-anim.css';
 @import './operation-flow/graph-node.css';
