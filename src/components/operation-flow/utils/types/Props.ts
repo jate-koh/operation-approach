@@ -1,8 +1,33 @@
-
 //================================================================
+// Operation Group
+export type RegionProps = {
+    regionNum: number;
+    regionName: string;
+    regionDescription: string;
+    regionColor?: string | 'default' | undefined;
+}
+export type ColumnRegionConfigs = RegionProps[];
+
+export type DomainProp = {
+    children?: string | JSX.Element | JSX.Element[];
+    operationLines: OperationLines;
+    headText: string;
+    tailText: string;
+};
+export type Domains = DomainProp[];
+
+export type OperationGroupProps = {
+    id: string;
+    groupName?: string | undefined;
+    domains: Domains;
+};
+//================================================================
+// Operation Flow
 export type OperationJSON = {
     sequence: number;
+    region: number;
     id?: string;
+    key?: string;
     shapeType: string | 'placeholder';
     description?: string;
     link?: {
@@ -11,24 +36,19 @@ export type OperationJSON = {
         allowQueueJump: boolean,
     };
 }
-
 export type OperationList = OperationJSON[];
-
 export type OperationLine = {
     line: string;
     type: 'main' | 'sub';
     operationList: OperationJSON[];
 };
-
 export type OperationLines = OperationLine[];
 
-export type OperationFlowProps = {
-    children?: string | JSX.Element | JSX.Element[];
-    operationLines: OperationLines;
-    headText: string;
-    tailText: string;
-};
+export type OperationFlowProps = DomainProp;
 
+//================================================================
+// Operation Flow Grid
+// Deprecated. This is not used anymore.
 export type OperationFlowGridProps = {
     operationLines: OperationLines;
 };

@@ -1,0 +1,18 @@
+
+@layer components {
+    
+    .graph-group {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        min-width: 80%;
+    }
+
+    @media (max-width: 1259px) {
+        .graph-group {
+            flex-shrink: 0;
+            min-width: 1000px;
+        }
+    }
+
+}

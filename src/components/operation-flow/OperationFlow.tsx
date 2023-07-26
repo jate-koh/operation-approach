@@ -6,12 +6,12 @@ import RGL, { WidthProvider, Layout } from 'react-grid-layout';
 import { FlowHead } from '../operation-flow-demo/FlowHead';
 import { FlowTail } from '../operation-flow-demo/FlowTail';
 
-import { OperationFlowProps, OperationLines } from './utils/types/Props';
+import { ColumnRegionConfigs, OperationFlowProps, OperationLines } from './utils/types/Props';
 import { RowMap, ColumnMap } from './utils/types/UtilsProps';
 
 import { createLayout, createPlaceholderLayout, prepLines, reorderMiddleLines } from './utils/LineUtils';
 import { getJSON, findMaxSequence, findMinSequence } from './utils/BaseUtils';
-import { checkColsUsage, checkRowUsage, populateMiddle, cutUnusedRow, recreatePlaceholderLayout} from './utils/LayoutUtils';
+import { populateMiddle, cutUnusedRow, recreatePlaceholderLayout} from './utils/LayoutUtils';
 
 import { matchInternalShape } from './utils/Styling';
 import { joinClassNames } from './utils/String';
@@ -26,6 +26,12 @@ type FlowState = {
     headText: string;
     tailText: string;
     operationLines: OperationLines;
+    regionConfigs?: ColumnRegionConfigs | undefined;
+}
+
+type RegionState = {
+    regionConfigs: ColumnRegionConfigs;
+    gridState: GridState;
 }
 
 type GridState = {
@@ -43,7 +49,7 @@ type DragState = {
     draggingItem?: Layout | undefined;
 };
 
-export function OperationFlow({ headText, tailText, operationLines }: OperationFlowProps, debugMode: boolean = false) {
+export function OperationFlow({ headText, tailText, operationLines }: OperationFlowProps, regionConfigs: ColumnRegionConfigs, debugMode: boolean = false) {
     //=======================================================================================================
     // React Hooks
     const [flowState, setFlowState] = useState<FlowState>({
@@ -63,16 +69,16 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
         draggingItem: undefined,
     });
 
-    // Run on Init
+    // Run on Initialization
     useEffect(() => {
-        // Init Flow State
+        // Initialize Flow State
         setFlowState({
             headText: headText,
             tailText: tailText,
             operationLines: reorderMiddleLines(prepLines(operationLines)),
         });
 
-        // Init Grid State
+        // Initialize Grid State
         setGridState({
             valueLayout: createLayout(operationLines),
             placeholderLayout: createPlaceholderLayout(operationLines),
@@ -106,49 +112,41 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
             dragging: false,
             draggingItem: undefined,
         });
-        // console.log('New Layout: ', layout);
-        // console.log('Col Map', checkColsUsage(layout), '\nRow Map', checkRowUsage(layout));
 
-        /** Rows Sorting
-         *  Sort based on Y-axis with the information from Row Map
-         *  1. Check if there is any unused (empty) row: if yes, cut it by swapping it with the last row
-         *  2. Attempt to populate the row in the middle of the grid
-         *      2.1 Make sure that middle is row is the most populated row: if not, swap it with the most populated row
-         *      2.2 Split grid into 2 parts: top and bottom. Sort top in ascending order, while sort bottom in descending order.
-         */
-        // Cut unused row
-        let rows: number = 0;
-        [layout, rows] = cutUnusedRow(layout);
-        console.log('Rows: ', rows, '\nLayout: ', layout);
-
-        // Populate middle row
-        layout = populateMiddle(layout, Math.floor(rows / 2));
-        
-
-        /** Cols Sorting
-         * 
-         * 
-        */
-        // TODO: Use Col Map to sort the cols
-
-
+        // TODO: Add update when rows increase
         // Recreate Placeholder Layout
-        let placeholderLayout: Layout[] = recreatePlaceholderLayout(rows, gridState.currentCols);
+        let placeholderLayout: Layout[] = recreatePlaceholderLayout(gridState.currentRows, gridState.currentCols);
 
         // Update Grid State
         setGridState({
             ...gridState,
             valueLayout: layout,
             placeholderLayout: placeholderLayout,
-            currentRows: rows,
-            middleRow: Math.floor(rows / 2),
         });
     };
     //=======================================================================================================
     // Render
 
+    const defaultGridProps = {
+        onDragStart: (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+            onDragStart(layout, oldItem, newItem);
+        },
+        onDrag: (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+            console.log('Dragging:', newItem);
+        },
+        onDragStop: (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+            onDragStop(layout, oldItem, newItem);
+        },
+        onDrop: (layout: Layout[], item: Layout, event: MouseEvent) => {
+            console.log('Dropped:', item, '\nat', event.clientX, event.clientY);
+        },
+        isResizable: true, isDroppable: true, isDraggable: true, 
+        cols: gridState.currentCols, maxRows: gridState.currentRows, 
+        rowHeight: 50, draggableHandle: '.drag-handle',
+    };
+
     return (
-        <div className='graph-container h-[800px]'>
+        <div className='graph-container'>
             {/* Graph Head Node */}
             <div className='graph-start-node'>
                 <FlowHead {...{text: headText}} />
@@ -157,29 +155,24 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
             {/* Graph Middle Line */}
             <div className='graph-line bg-white' />
 
-            {/* Graph Body */}
+            Graph Body
             <div className='graph-body'>
                 <div className='grid-body'>
                     {/* Value Grid */}
                     <div className='grid-container'>
+                        {/* Column Region */}
+                        <div className='absolute top-0 w-[100%] h-5 bg-orange-600' >
+                        </div>
+                        
                         <GridLayout
-                            onDrag={(layout, oldItem, newItem) => {
-                                onDragStart(layout, oldItem, newItem);
-                            }}
-                            onDragStop={(layout, oldItem, newItem) => {
-                                onDragStop(layout, oldItem, newItem);
-                            }}
-                            onDrop={(layout, item) => {
-                                console.log('on Drop Col 1: ', layout, item);
-                            }}
-                            isDroppable={true} isDraggable={true}
-                            cols={gridState.currentCols} maxRows={gridState.currentRows} rowHeight={50} draggableHandle='.drag-handle' 
-                            compactType={null} useCSSTransforms={true}
+                            {...defaultGridProps}
+                            isDroppable={true}
+                            compactType={'vertical'}
                             style={{
                                 position: 'absolute',
                                 top: '50%',
-                                transform: gridState.currentRows % 2 === 0 ? 'translateY(-153px)' : 'translateY(-50%)',
-                            }} 
+                                transform: 'translateY(-35px)',
+                            }}
                         >
                             {
                                 gridState.valueLayout?.map((item, index) => { 
@@ -213,28 +206,72 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                         </GridLayout>
                     </div>
 
-                    {/* Placeholder Grid */}
-                    <div className='grid-placeholder-container'>
+                    {/* <div className='grid-container'>
+
+                        <div className='absolute top-0 w-[100%] h-5 bg-lime-600' >
+
+                        </div>
                         <GridLayout
-                            onDrag={(layout, oldItem, newItem) => {}}
-                            onDragStop={(layout, oldItem, newItem) => {}}
-                            onDrop={(layout, item, event) => {
-                                console.log('On Drop 2:');
-                            }}
-                            cols={gridState.currentCols} rowHeight={50} maxRows={gridState.currentRows} 
-                            isDroppable={true} draggableHandle='.drag-handle'
+                            {...defaultGridProps}
+                            isDroppable={true}
                             compactType={'vertical'}
                             style={{
                                 position: 'absolute',
                                 top: '50%',
-                                transform: gridState.currentRows % 2 === 0 ? 'translateY(-153px)' : 'translateY(-50%)',
+                                transform: 'translateY(-35px)',
+                            }}
+                        >
+                            {
+                                gridState.valueLayout?.map((item, index) => { 
+                                    return (
+                                        <div key={`${item.i}`}
+                                            draggable={true}
+                                            data-grid={{
+                                                x: item.x,
+                                                y: item.y,
+                                                w: item.w,
+                                                h: item.h,
+                                                i: item.i,
+                                            }}
+                                            className={joinClassNames(
+                                                'drag-handle', 'droppable-element'
+                                            )}
+                                            onDragStart={e => e.dataTransfer.setData('text/plain', '')}
+                                        >
+                                            <div className={
+                                                joinClassNames(
+                                                    getJSON(flowState.operationLines, item.i) === undefined ? '' : matchInternalShape(getJSON(flowState.operationLines, item.i), 'md'),
+                                                )
+                                            }>
+                                                <h1>
+                                                    {item.i}
+                                                </h1>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </GridLayout>
+                    </div> */}
+
+                    {/* Placeholder Grid */}
+                    <div className='grid-placeholder-container'>
+                        <GridLayout
+                            {...defaultGridProps}
+                            onDrag={(layout, oldItem, newItem) => {}}
+                            onDragStop={(layout, oldItem, newItem) => {}}
+                            onDrop={(layout, item, event) => {}}
+                            isDraggable={false} isDroppable={false} useCSSTransforms={true}
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                transform: 'translateY(-35px)',
                             }}
                         >
                             {
                                 gridState.placeholderLayout?.map((item, index) => {
                                     return (
                                         <div key={item.i}
-                                            draggable={true}
                                             data-grid={{
                                                 x: item.x,
                                                 y: item.y,
@@ -250,8 +287,8 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                                             <div className={
                                                 joinClassNames(
                                                     !dragState.dragging ? '' : 
-                                                        dragState.draggingItem && (dragState.draggingItem.x === item.x && dragState.draggingItem.y) === item.y ? 
-                                                            matchInternalShape('placeholder', 'md') : ''
+                                                        // dragState.draggingItem && (dragState.draggingItem.x === item.x && dragState.draggingItem.y) === item.y ? 
+                                                        matchInternalShape('placeholder', 'md') 
                                                 )
                                             }>
                                             </div>
