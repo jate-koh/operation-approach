@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import RGL, { WidthProvider, Layout } from 'react-grid-layout';
 
 // Files Imports
-import { FlowHead } from '../operation-flow-demo/FlowHead';
-import { FlowTail } from '../operation-flow-demo/FlowTail';
+import { FlowHead } from './components/FlowHead';
+import { FlowTail } from './components/FlowTail';
 
 import { ColumnRegionConfigs, OperationFlowProps, OperationLines } from './utils/types/Props';
 import { RowMap, ColumnMap } from './utils/types/UtilsProps';
@@ -149,7 +149,7 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
         <div className='graph-container'>
             {/* Graph Head Node */}
             <div className='graph-start-node'>
-                <FlowHead {...{text: headText}} />
+                <FlowHead text={flowState.headText} />
             </div>
 
             {/* Graph Middle Line */}
@@ -317,7 +317,7 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
 
             {/* Graph Tail Node */}
             <div className='graph-end-node'>
-                <FlowTail {...{text: tailText}} />
+                <FlowTail text={flowState.tailText} />
             </div>
         </div>
     );
