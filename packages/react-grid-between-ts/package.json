@@ -1,0 +1,26 @@
+{
+  "name": "@types/react-grid-layout-between",
+  "version": "1.0.0",
+  "description": "TypeScript definitions for react-grid-layout-between",
+  "author": {
+    "name": "Jate Koh",
+    "url": "https://github.com/jate-koh"
+  },
+  "main": "",
+  "types": "./index.d.ts",
+  "dependencies": {
+    "@types/react": "*"
+  },
+  "scripts": {},
+  "keywords": [],
+  "license": "ISC",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": {
+        "default": "./index.d.ts"
+      }
+    },
+    "./package.json": "./package.json"
+  }
+}

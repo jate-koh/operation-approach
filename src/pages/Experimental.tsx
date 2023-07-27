@@ -4,7 +4,10 @@ import { randomId } from '@/utils/String';
 
 // Dependencies Import
 import React from 'react';
+import ReactGridLayoutBetween from 'packages/react-grid-between-ts';
 import RGL, { WidthProvider, Layout, Responsive } from 'react-grid-layout';
+
+
 // Test Props
 function generateLayout() {
     // Create a layout with Random number of elements
@@ -45,7 +48,13 @@ export function Experimental() {
     return (
 
         <div className='flex flex-col'>
-            <div
+
+            <ReactGridLayoutBetween
+                compactType={'vertical'}       
+            >
+                <div className='bg-red-500'>1</div>
+            </ReactGridLayoutBetween>
+            {/* <div
                 className="bg-white w-[10rem] h-[5rem]"
                 draggable={true}
                 // this is a hack for firefox
@@ -144,7 +153,7 @@ export function Experimental() {
                         </div>
                     );
                 })}
-            </GridLayout>
+            </GridLayout> */}
         </div>
     );
 }

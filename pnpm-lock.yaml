@@ -1,95 +1,91 @@
 lockfileVersion: '6.0'
 
-dependencies:
-  path:
-    specifier: ^0.12.7
-    version: 0.12.7
-  react:
-    specifier: ^17.0.2
-    version: 17.0.2
-  react-beautiful-dnd:
-    specifier: 13.1.1
-    version: 13.1.1(react-dom@17.0.2)(react@17.0.2)
-  react-dnd:
-    specifier: ^16.0.1
-    version: 16.0.1(@types/node@20.2.5)(@types/react@17.0.62)(react@17.0.2)
-  react-dnd-html5-backend:
-    specifier: ^16.0.1
-    version: 16.0.1
-  react-dom:
-    specifier: ^17.0.2
-    version: 17.0.2(react@17.0.2)
-  react-grid-layout:
-    specifier: ^1.3.4
-    version: 1.3.4(react-dom@17.0.2)(react@17.0.2)
-  react-redux:
-    specifier: ^8.0.7
-    version: 8.0.7(@types/react-dom@17.0.20)(@types/react@17.0.62)(react-dom@17.0.2)(react@17.0.2)
-  react-resizable:
-    specifier: ^3.0.5
-    version: 3.0.5(react-dom@17.0.2)(react@17.0.2)
-  react-router:
-    specifier: ^6.11.2
-    version: 6.11.2(react@17.0.2)
-  react-router-dom:
-    specifier: ^6.11.2
-    version: 6.11.2(react-dom@17.0.2)(react@17.0.2)
+importers:
 
-devDependencies:
-  '@types/node':
-    specifier: ^20.2.5
-    version: 20.2.5
-  '@types/react':
-    specifier: ^17.0.62
-    version: 17.0.62
-  '@types/react-beautiful-dnd':
-    specifier: 13.1.1
-    version: 13.1.1
-  '@types/react-dom':
-    specifier: ^17.0.20
-    version: 17.0.20
-  '@types/react-grid-layout':
-    specifier: ^1.3.2
-    version: 1.3.2
-  '@types/react-resizable':
-    specifier: ^3.0.4
-    version: 3.0.4
-  '@typescript-eslint/eslint-plugin':
-    specifier: ^5.59.9
-    version: 5.59.9(@typescript-eslint/parser@5.59.9)(eslint@8.42.0)(typescript@5.1.3)
-  '@typescript-eslint/parser':
-    specifier: ^5.59.9
-    version: 5.59.9(eslint@8.42.0)(typescript@5.1.3)
-  '@vitejs/plugin-react':
-    specifier: ^4.0.0
-    version: 4.0.0(vite@4.3.9)
-  autoprefixer:
-    specifier: ^10.4.14
-    version: 10.4.14(postcss@8.4.24)
-  eslint:
-    specifier: ^8.42.0
-    version: 8.42.0
-  eslint-plugin-react:
-    specifier: ^7.32.2
-    version: 7.32.2(eslint@8.42.0)
-  postcss:
-    specifier: ^8.4.24
-    version: 8.4.24
-  postcss-import:
-    specifier: ^15.1.0
-    version: 15.1.0(postcss@8.4.24)
-  tailwindcss:
-    specifier: ^3.3.2
-    version: 3.3.2
-  typescript:
-    specifier: ^5.1.3
-    version: 5.1.3
-  vite:
-    specifier: ^4.3.9
-    version: 4.3.9(@types/node@20.2.5)
-  vite-plugin-eslint:
-    specifier: ^1.8.1
-    version: 1.8.1(eslint@8.42.0)(vite@4.3.9)
+  .:
+    dependencies:
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      react:
+        specifier: ^17.0.2
+        version: 17.0.2
+      react-dom:
+        specifier: ^17.0.2
+        version: 17.0.2(react@17.0.2)
+      react-grid-layout:
+        specifier: ^1.3.4
+        version: 1.3.4(react-dom@17.0.2)(react@17.0.2)
+      react-grid-layout-between:
+        specifier: ^1.0.0
+        version: 1.0.0(react@17.0.2)
+      react-redux:
+        specifier: ^8.0.7
+        version: 8.0.7(@types/react-dom@17.0.20)(@types/react@17.0.62)(react-dom@17.0.2)(react@17.0.2)
+      react-resizable:
+        specifier: ^3.0.5
+        version: 3.0.5(react-dom@17.0.2)(react@17.0.2)
+      react-router:
+        specifier: ^6.11.2
+        version: 6.11.2(react@17.0.2)
+      react-router-dom:
+        specifier: ^6.11.2
+        version: 6.11.2(react-dom@17.0.2)(react@17.0.2)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.2.5
+        version: 20.2.5
+      '@types/react':
+        specifier: ^17.0.62
+        version: 17.0.62
+      '@types/react-dom':
+        specifier: ^17.0.20
+        version: 17.0.20
+      '@types/react-grid-layout':
+        specifier: ^1.3.2
+        version: 1.3.2
+      '@types/react-grid-layout-between':
+        specifier: workspace:^1.0.0
+        version: link:packages/react-grid-between-ts
+      '@types/react-resizable':
+        specifier: ^3.0.4
+        version: 3.0.4
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.59.9
+        version: 5.59.9(@typescript-eslint/parser@5.59.9)(eslint@8.42.0)(typescript@5.1.3)
+      '@typescript-eslint/parser':
+        specifier: ^5.59.9
+        version: 5.59.9(eslint@8.42.0)(typescript@5.1.3)
+      '@vitejs/plugin-react':
+        specifier: ^4.0.0
+        version: 4.0.0(vite@4.3.9)
+      autoprefixer:
+        specifier: ^10.4.14
+        version: 10.4.14(postcss@8.4.24)
+      eslint:
+        specifier: ^8.42.0
+        version: 8.42.0
+      eslint-plugin-react:
+        specifier: ^7.32.2
+        version: 7.32.2(eslint@8.42.0)
+      postcss:
+        specifier: ^8.4.24
+        version: 8.4.24
+      postcss-import:
+        specifier: ^15.1.0
+        version: 15.1.0(postcss@8.4.24)
+      tailwindcss:
+        specifier: ^3.3.2
+        version: 3.3.2
+      typescript:
+        specifier: ^5.1.3
+        version: 5.1.3
+      vite:
+        specifier: ^4.3.9
+        version: 4.3.9(@types/node@20.2.5)
+      vite-plugin-eslint:
+        specifier: ^1.8.1
+        version: 1.8.1(eslint@8.42.0)(vite@4.3.9)
 
 packages:
 
@@ -643,18 +639,6 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@react-dnd/asap@5.0.2:
-    resolution: {integrity: sha512-WLyfoHvxhs0V9U+GTsGilGgf2QsPl6ZZ44fnv0/b8T3nQyvzxidxsg/ZltbWssbsRDlYW8UKSQMTGotuTotZ6A==}
-    dev: false
-
-  /@react-dnd/invariant@4.0.2:
-    resolution: {integrity: sha512-xKCTqAK/FFauOM9Ta2pswIyT3D8AQlfrYdOi/toTPEhqCuAs1v5tcJ3Y08Izh1cJ5Jchwy9SeAXmMg6zrKs2iw==}
-    dev: false
-
-  /@react-dnd/shallowequal@4.0.2:
-    resolution: {integrity: sha512-/RVXdLvJxLg4QKvMoM5WlwNR9ViO9z8B/qPcc+C0Sa/teJY7QG7kJ441DwzOjMYEY7GmU4dj5EcGHIkKZiQZCA==}
-    dev: false
-
   /@remix-run/router@1.6.2:
     resolution: {integrity: sha512-LzqpSrMK/3JBAVBI9u3NWtOhWNw5AMQfrUFYB0+bDHTSw17z++WJLsPsxAuK+oSddsxk4d7F/JcdDPM1M5YAhA==}
     engines: {node: '>=14'}
@@ -692,15 +676,10 @@ packages:
 
   /@types/node@20.2.5:
     resolution: {integrity: sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==}
+    dev: true
 
   /@types/prop-types@15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
-
-  /@types/react-beautiful-dnd@13.1.1:
-    resolution: {integrity: sha512-1lBBxVSutE8CQM37Jq7KvJwuA94qaEEqsx+G0dnwzG6Sfwf6JGcNeFk5jjjhJli1q2naeMZm+D/dvT/zyX4QPw==}
-    dependencies:
-      '@types/react': 17.0.62
-    dev: true
 
   /@types/react-dom@17.0.20:
     resolution: {integrity: sha512-4pzIjSxDueZZ90F52mU3aPoogkHIoSIDG+oQ+wQK7Cy2B9S+MvOqY0uEA/qawKz381qrEDkvpwyt8Bm31I8sbA==}
@@ -712,15 +691,6 @@ packages:
     dependencies:
       '@types/react': 17.0.62
     dev: true
-
-  /@types/react-redux@7.1.25:
-    resolution: {integrity: sha512-bAGh4e+w5D8dajd6InASVIyCo4pZLJ66oLb80F9OBLO1gKESbZcRCJpTT6uLXX+HAB57zw1WTdwJdAsewuTweg==}
-    dependencies:
-      '@types/hoist-non-react-statics': 3.3.1
-      '@types/react': 17.0.62
-      hoist-non-react-statics: 3.3.2
-      redux: 4.2.1
-    dev: false
 
   /@types/react-resizable@3.0.4:
     resolution: {integrity: sha512-+QguN9CDfC1lthq+4noG1fkxh8cqkV2Fv/Mu3mdknCCBiwwNLecnBdk1MmNNN7uJpT23Nx/aVkYsbt5NuWouFw==}
@@ -996,6 +966,10 @@ packages:
       get-intrinsic: 1.2.1
     dev: true
 
+  /asap@2.0.6:
+    resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
+    dev: false
+
   /autoprefixer@10.4.14(postcss@8.4.24):
     resolution: {integrity: sha512-FQzyfOsTlwVzjHxKEqRIAdJx9niO6VCBCoEwax/VLSoQF29ggECcPuBqUMZ+u8jCZOPSy8b8/8KnuFbp0SaFZQ==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1152,12 +1126,6 @@ packages:
       which: 2.0.2
     dev: true
 
-  /css-box-model@1.2.1:
-    resolution: {integrity: sha512-a7Vr4Q/kd/aw96bnJG332W9V9LkJO69JRcaCYDUqjp6/z0w6VcZjgAcTbgFxEPfBgdnAwlh3iwu+hLopa+flJw==}
-    dependencies:
-      tiny-invariant: 1.3.1
-    dev: false
-
   /cssesc@3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
@@ -1202,16 +1170,21 @@ packages:
       path-type: 4.0.0
     dev: true
 
+  /disposables@1.0.2:
+    resolution: {integrity: sha512-q1XTvs/XGdfubRSemB2+QRhJjIX4PerKkSom+i8Nkw3hCv6xISNrgaN442n2BunyBI4x77Om4ZAzSlqmhM9pwA==}
+    dev: false
+
   /dlv@1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
     dev: true
 
-  /dnd-core@16.0.1:
-    resolution: {integrity: sha512-HK294sl7tbw6F6IeuK16YSBUoorvHpY8RHO+9yFfaJyCDVb6n7PRcezrOEOa2SBCqiYpemh5Jx20ZcjKdFAVng==}
+  /dnd-core@2.6.0:
+    resolution: {integrity: sha512-5BfQHIp0XVd4ioF0q4GyUeHQQNCbqP+0SnUiP9TssoQ50wrP1NgSzDqZkjD5pFngsVz9txGin6rvTQD7w0qC3w==}
     dependencies:
-      '@react-dnd/asap': 5.0.2
-      '@react-dnd/invariant': 4.0.2
-      redux: 4.2.1
+      asap: 2.0.6
+      invariant: 2.2.4
+      lodash: 4.17.21
+      redux: 3.7.2
     dev: false
 
   /doctrine@2.1.0:
@@ -1478,6 +1451,7 @@ packages:
 
   /fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
+    dev: true
 
   /fast-glob@3.2.12:
     resolution: {integrity: sha512-DVj4CQIYYow0BlaelwK1pHl5n5cRSJfM60UA0zK891sVInoPri2Ekj7+e1CT3/3qxXenpI+nBBmQAcJPJgaj4w==}
@@ -1725,6 +1699,10 @@ packages:
       function-bind: 1.1.1
     dev: true
 
+  /hoist-non-react-statics@2.5.5:
+    resolution: {integrity: sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==}
+    dev: false
+
   /hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
@@ -1772,6 +1750,12 @@ packages:
       has: 1.0.3
       side-channel: 1.0.4
     dev: true
+
+  /invariant@2.2.4:
+    resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
+    dependencies:
+      loose-envify: 1.4.0
+    dev: false
 
   /is-array-buffer@3.0.2:
     resolution: {integrity: sha512-y+FyyR/w8vfIRq4eQcM1EYgSTnmHXPqaF+IgzgraytCFq5Xh8lllDVmAZolPJiZttZLeFSINPYMaEJ7/vWUa1w==}
@@ -1970,6 +1954,10 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /lodash.isequal@4.5.0:
     resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
     dev: false
@@ -1977,6 +1965,10 @@ packages:
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
+
+  /lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
 
   /loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -1996,10 +1988,6 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
-
-  /memoize-one@5.2.1:
-    resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
-    dev: false
 
   /merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
@@ -2307,57 +2295,23 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
-  /raf-schd@4.0.3:
-    resolution: {integrity: sha512-tQkJl2GRWh83ui2DiPTJz9wEiMN20syf+5oKfB03yYP7ioZcJwsIK8FjrtLwH1m7C7e+Tt2yYBlrOpdT+dyeIQ==}
+  /react-dnd-html5-backend@2.6.0:
+    resolution: {integrity: sha512-8gOfBfqFikWmXvAGSZz1mgoctwkcsKdUC9POt/WGnMoZwGB4ivB0Ex5D6pwHTNjvAs0ixqqWdJKy57CzjDg5Sg==}
+    dependencies:
+      lodash: 4.17.21
     dev: false
 
-  /react-beautiful-dnd@13.1.1(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-0Lvs4tq2VcrEjEgDXHjT98r+63drkKEgqyxdA7qD3mvKwga6a5SscbdLPO2IExotU1jW8L0Ksdl0Cj2AF67nPQ==}
+  /react-dnd@2.6.0(react@17.0.2):
+    resolution: {integrity: sha512-2KHNpeg2SyaxXYq+xO1TM+tOtN9hViI41otJuiYiu6DRYGw+WMvDFDMP4aw7zIKRRm1xd0gizXuKWhb8iJYHBw==}
     peerDependencies:
-      react: ^16.8.5 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.5 || ^17.0.0 || ^18.0.0
+      react: '*'
     dependencies:
-      '@babel/runtime': 7.22.3
-      css-box-model: 1.2.1
-      memoize-one: 5.2.1
-      raf-schd: 4.0.3
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-      react-redux: 7.2.9(react-dom@17.0.2)(react@17.0.2)
-      redux: 4.2.1
-      use-memo-one: 1.1.3(react@17.0.2)
-    transitivePeerDependencies:
-      - react-native
-    dev: false
-
-  /react-dnd-html5-backend@16.0.1:
-    resolution: {integrity: sha512-Wu3dw5aDJmOGw8WjH1I1/yTH+vlXEL4vmjk5p+MHxP8HuHJS1lAGeIdG/hze1AvNeXWo/JgULV87LyQOr+r5jw==}
-    dependencies:
-      dnd-core: 16.0.1
-    dev: false
-
-  /react-dnd@16.0.1(@types/node@20.2.5)(@types/react@17.0.62)(react@17.0.2):
-    resolution: {integrity: sha512-QeoM/i73HHu2XF9aKksIUuamHPDvRglEwdHL4jsp784BgUuWcg6mzfxT0QDdQz8Wj0qyRKx2eMg8iZtWvU4E2Q==}
-    peerDependencies:
-      '@types/hoist-non-react-statics': '>= 3.3.1'
-      '@types/node': '>= 12'
-      '@types/react': '>= 16'
-      react: '>= 16.14'
-    peerDependenciesMeta:
-      '@types/hoist-non-react-statics':
-        optional: true
-      '@types/node':
-        optional: true
-      '@types/react':
-        optional: true
-    dependencies:
-      '@react-dnd/invariant': 4.0.2
-      '@react-dnd/shallowequal': 4.0.2
-      '@types/node': 20.2.5
-      '@types/react': 17.0.62
-      dnd-core: 16.0.1
-      fast-deep-equal: 3.1.3
-      hoist-non-react-statics: 3.3.2
+      disposables: 1.0.2
+      dnd-core: 2.6.0
+      hoist-non-react-statics: 2.5.5
+      invariant: 2.2.4
+      lodash: 4.17.21
+      prop-types: 15.8.1
       react: 17.0.2
     dev: false
 
@@ -2384,6 +2338,18 @@ packages:
       react-dom: 17.0.2(react@17.0.2)
     dev: false
 
+  /react-grid-layout-between@1.0.0(react@17.0.2):
+    resolution: {integrity: sha512-FTy7HfA+t/pu8hboqXt2KhoDe8DTiLvhkq1CPiwB7fSVWiBK+nWRWZ3YiaHPFedTUH6NHMbeyDtB+svWskpENQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16.0.0
+    dependencies:
+      lodash: 4.17.21
+      react: 17.0.2
+      react-dnd: 2.6.0(react@17.0.2)
+      react-dnd-html5-backend: 2.6.0
+    dev: false
+
   /react-grid-layout@1.3.4(react-dom@17.0.2)(react@17.0.2):
     resolution: {integrity: sha512-sB3rNhorW77HUdOjB4JkelZTdJGQKuXLl3gNg+BI8gJkTScspL1myfZzW/EM0dLEn+1eH+xW+wNqk0oIM9o7cw==}
     peerDependencies:
@@ -2402,34 +2368,8 @@ packages:
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
-  /react-is@17.0.2:
-    resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
-    dev: false
-
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
-    dev: false
-
-  /react-redux@7.2.9(react-dom@17.0.2)(react@17.0.2):
-    resolution: {integrity: sha512-Gx4L3uM182jEEayZfRbI/G11ZpYdNAnBs70lFVMNdHJI76XYtR+7m0MN+eAs7UHBPhWXcnFPaS+9owSCJQHNpQ==}
-    peerDependencies:
-      react: ^16.8.3 || ^17 || ^18
-      react-dom: '*'
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.22.3
-      '@types/react-redux': 7.1.25
-      hoist-non-react-statics: 3.3.2
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-      react-is: 17.0.2
     dev: false
 
   /react-redux@8.0.7(@types/react-dom@17.0.20)(@types/react@17.0.62)(react-dom@17.0.2)(react@17.0.2):
@@ -2529,10 +2469,13 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /redux@4.2.1:
-    resolution: {integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==}
+  /redux@3.7.2:
+    resolution: {integrity: sha512-pNqnf9q1hI5HHZRBkj3bAngGZW/JMCmexDlOxw4XagXY2o1327nHH54LoTjiPJ0gizoqPDRqWyX/00g0hD6w+A==}
     dependencies:
-      '@babel/runtime': 7.22.3
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      loose-envify: 1.4.0
+      symbol-observable: 1.2.0
     dev: false
 
   /regenerator-runtime@0.13.11:
@@ -2746,6 +2689,11 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
+  /symbol-observable@1.2.0:
+    resolution: {integrity: sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /tailwindcss@3.3.2:
     resolution: {integrity: sha512-9jPkMiIBXvPc2KywkraqsUfbfj+dHDb+JPWtSJa9MLFdrPyazI7q6WX2sUrm7R9eVR7qqv3Pas7EvQFzxKnI6w==}
     engines: {node: '>=14.0.0'}
@@ -2794,10 +2742,6 @@ packages:
     dependencies:
       any-promise: 1.3.0
     dev: true
-
-  /tiny-invariant@1.3.1:
-    resolution: {integrity: sha512-AD5ih2NlSssTCwsMznbvwMZpJ1cbhkGd2uueNxzv2jDlEeZdU04JQfRnggJQ8DrcVBGjAsCKwFBbDlVNtEMlzw==}
-    dev: false
 
   /to-fast-properties@2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
@@ -2880,14 +2824,6 @@ packages:
     dependencies:
       punycode: 2.3.0
     dev: true
-
-  /use-memo-one@1.1.3(react@17.0.2):
-    resolution: {integrity: sha512-g66/K7ZQGYrI6dy8GLpVcMsBp4s17xNkYJVSMvTEevGy3nDxHOfE6z8BVE22+5G5x7t3+bhzrlTDB7ObrEE0cQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 17.0.2
-    dev: false
 
   /use-sync-external-store@1.2.0(react@17.0.2):
     resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
