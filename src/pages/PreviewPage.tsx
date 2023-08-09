@@ -2,25 +2,39 @@
 import OperationFlow from '@/components/operation-flow/OperationFlow';
 import OperationGroup from '@/components/operation-flow/OperationGroup';
 
-import { ColumnRegionConfigs, OperationGroupProps } from '@/components/operation-flow/utils/types/Props';
+import { ColumnSettings , OperationGroupProps } from '@/components/operation-flow/utils/types/Props';
 
 // Props Imports
 import { generateProps } from '@/pages/Demo';
 import { testProps } from '@/pages/Test';
 
 const domainProps: OperationGroupProps = generateProps(1, 15);
-const regionProps: ColumnRegionConfigs = [
-    {   
-        regionNum: 0,
-        regionName: 'Prepare Provision',
-        regionDescription: '30 days' //number
-    },
-    {
-        regionNum: 1,
-        regionName: 'Raiding',
-        regionDescription: '15 - 20 days' //number
-    },
-];
+const columnSettings: ColumnSettings = {
+    type: 'period',
+    minColumn: 25,
+    maxColumn: 35,
+    unit: 'day',
+    periods: [
+        {
+            id: '1',
+            num: 1,
+            name: 'Period 1',
+            duration: 20,
+        },
+        {
+            id: '2',
+            num: 2,
+            name: 'Period 2',
+            duration: 30,
+        },
+        {
+            id: '3',
+            num: 3,
+            name: 'Period 3',
+            duration: 40,
+        },
+    ]
+}
 
 export function PreviewPage() {
     return (
@@ -29,7 +43,7 @@ export function PreviewPage() {
             <OperationFlow {...testProps} />
             <OperationFlow {...testProps} /> */}
 
-            <OperationGroup {...domainProps} {...regionProps} />
+            <OperationGroup {...domainProps} regionSettings={columnSettings} />
         </div>
     );
 }

@@ -6,7 +6,7 @@ import RGL, { WidthProvider, Layout } from 'react-grid-layout';
 import { FlowHead } from './components/FlowHead';
 import { FlowTail } from './components/FlowTail';
 
-import { ColumnRegionConfigs, OperationFlowProps, OperationLines } from './utils/types/Props';
+import { ColumnSettings, OperationFlowProps, OperationLines } from './utils/types/Props';
 import { RowMap, ColumnMap } from './utils/types/UtilsProps';
 
 import { createLayout, createPlaceholderLayout, prepLines, reorderMiddleLines } from './utils/LineUtils';
@@ -26,12 +26,7 @@ type FlowState = {
     headText: string;
     tailText: string;
     operationLines: OperationLines;
-    regionConfigs?: ColumnRegionConfigs | undefined;
-}
-
-type RegionState = {
-    regionConfigs: ColumnRegionConfigs;
-    gridState: GridState;
+    regionSettings?: ColumnSettings | undefined;
 }
 
 type GridState = {
@@ -49,7 +44,7 @@ type DragState = {
     draggingItem?: Layout | undefined;
 };
 
-export function OperationFlow({ headText, tailText, operationLines }: OperationFlowProps, regionConfigs: ColumnRegionConfigs, debugMode: boolean = false) {
+export function OperationFlow({ headText, tailText, operationLines, regionSettings }: OperationFlowProps) {
     //=======================================================================================================
     // React Hooks
     const [flowState, setFlowState] = useState<FlowState>({
@@ -76,13 +71,16 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
             headText: headText,
             tailText: tailText,
             operationLines: reorderMiddleLines(prepLines(operationLines)),
+            regionSettings: regionSettings,
         });
 
+        console.log('regionSettings: ', regionSettings);
         // Initialize Grid State
         setGridState({
             valueLayout: createLayout(operationLines),
-            placeholderLayout: createPlaceholderLayout(operationLines),
-            currentCols: findMaxSequence(operationLines) - findMinSequence(operationLines) + 1,
+            placeholderLayout: recreatePlaceholderLayout(regionSettings.minColumn, operationLines.length),
+            // currentCols: findMaxSequence(operationLines) - findMinSequence(operationLines) + 1,
+            currentCols: regionSettings.minColumn,
             currentRows: operationLines.length,
             middleRow: Math.floor(operationLines.length / 2),
         });
@@ -138,11 +136,11 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
             onDragStop(layout, oldItem, newItem);
         },
         onDrop: (layout: Layout[], item: Layout, event: MouseEvent) => {
-            console.log('Dropped:', item, '\nat', event.clientX, event.clientY);
+            // console.log('Dropped:', item, '\nat', event.clientX, event.clientY);
         },
-        isResizable: true, isDroppable: true, isDraggable: true, 
+        isResizable: true, isDroppable: false, isDraggable: true, 
         cols: gridState.currentCols, maxRows: gridState.currentRows, 
-        rowHeight: 50, draggableHandle: '.drag-handle',
+        rowHeight: 25, draggableHandle: '.drag-handle',
     };
 
     return (
@@ -155,23 +153,22 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
             {/* Graph Middle Line */}
             <div className='graph-line bg-white' />
 
-            Graph Body
+            {/* Graph Body */}
             <div className='graph-body'>
                 <div className='grid-body'>
                     {/* Value Grid */}
                     <div className='grid-container'>
-                        {/* Column Region */}
+                        {/* Column Region
                         <div className='absolute top-0 w-[100%] h-5 bg-orange-600' >
-                        </div>
+                        </div> */}
                         
                         <GridLayout
                             {...defaultGridProps}
-                            isDroppable={true}
                             compactType={'vertical'}
                             style={{
                                 position: 'absolute',
                                 top: '50%',
-                                transform: 'translateY(-35px)',
+                                transform: 'translateY(-28px)',
                             }}
                         >
                             {
@@ -192,7 +189,8 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                                         >
                                             <div className={
                                                 joinClassNames(
-                                                    getJSON(flowState.operationLines, item.i) === undefined ? '' : matchInternalShape(getJSON(flowState.operationLines, item.i), 'md'),
+                                                    getJSON(flowState.operationLines, item.i) === undefined ? '' : 
+                                                        matchInternalShape(getJSON(flowState.operationLines, item.i), 'sm', 'default', 'sm'),
                                                 )
                                             }>
                                                 <h1>
@@ -206,53 +204,6 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                         </GridLayout>
                     </div>
 
-                    {/* <div className='grid-container'>
-
-                        <div className='absolute top-0 w-[100%] h-5 bg-lime-600' >
-
-                        </div>
-                        <GridLayout
-                            {...defaultGridProps}
-                            isDroppable={true}
-                            compactType={'vertical'}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                transform: 'translateY(-35px)',
-                            }}
-                        >
-                            {
-                                gridState.valueLayout?.map((item, index) => { 
-                                    return (
-                                        <div key={`${item.i}`}
-                                            draggable={true}
-                                            data-grid={{
-                                                x: item.x,
-                                                y: item.y,
-                                                w: item.w,
-                                                h: item.h,
-                                                i: item.i,
-                                            }}
-                                            className={joinClassNames(
-                                                'drag-handle', 'droppable-element'
-                                            )}
-                                            onDragStart={e => e.dataTransfer.setData('text/plain', '')}
-                                        >
-                                            <div className={
-                                                joinClassNames(
-                                                    getJSON(flowState.operationLines, item.i) === undefined ? '' : matchInternalShape(getJSON(flowState.operationLines, item.i), 'md'),
-                                                )
-                                            }>
-                                                <h1>
-                                                    {item.i}
-                                                </h1>
-                                            </div>
-                                        </div>
-                                    );
-                                })
-                            }
-                        </GridLayout>
-                    </div> */}
 
                     {/* Placeholder Grid */}
                     <div className='grid-placeholder-container'>
@@ -287,8 +238,7 @@ export function OperationFlow({ headText, tailText, operationLines }: OperationF
                                             <div className={
                                                 joinClassNames(
                                                     !dragState.dragging ? '' : 
-                                                        // dragState.draggingItem && (dragState.draggingItem.x === item.x && dragState.draggingItem.y) === item.y ? 
-                                                        matchInternalShape('placeholder', 'md') 
+                                                        dragState.draggingItem && (dragState.draggingItem.x === item.x && dragState.draggingItem.y) === item.y ? matchInternalShape('placeholder', 'sm') : ''
                                                 )
                                             }>
                                             </div>

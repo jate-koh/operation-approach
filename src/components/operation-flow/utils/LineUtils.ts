@@ -100,4 +100,20 @@ export function createPlaceholderLayout(operationLines: OperationLines): Layout[
     }
     return layout;
 }
+
+export function generatePlaceholderLayout(rowNum: number, colNum: number): Layout[] {
+    let layout: Layout[] = [];
+    for (let i = 0; i < rowNum; i++) {
+        for (let j = 0; j < colNum; j++) {
+            layout.push({
+                i: randomId(5, 10),
+                x: j,
+                y: i,
+                w: 1,
+                h: 1,
+            });
+        }
+    }
+    return layout;
+} 
 //========================================================================

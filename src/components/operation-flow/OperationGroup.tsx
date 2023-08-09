@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 // Files Imports
-import { OperationGroupProps, Domains, ColumnRegionConfigs } from './utils/types/Props';
+import { OperationGroupProps, Domains, ColumnSettings } from './utils/types/Props';
 import { OperationFlow } from './OperationFlow';
 
 // CSS Imports
@@ -10,17 +10,26 @@ import './css/index.css';
 
 // Constants and Types
 type GroupState = {
-    id: string;
+    id: string; 
     groupName: string;
+    regionSettings: ColumnSettings | undefined;
     domains: Domains | undefined;
 }
 
-export function OperationGroup({id, groupName, domains}: OperationGroupProps, regionConfigs?: ColumnRegionConfigs) {
+const defaultRegionSettings: ColumnSettings = {
+    type: 'none',
+    minColumn: 20,
+    maxColumn: 30,
+    unit: 'day',
+}
+
+export function OperationGroup({id, groupName, domains, regionSettings}: OperationGroupProps) {
     //=======================================================================
     // React Hooks
     const [groupState, setGroupState] = useState<GroupState>({
         id: '',
         groupName: '',
+        regionSettings: undefined,
         domains: undefined,
     });
 
@@ -30,6 +39,7 @@ export function OperationGroup({id, groupName, domains}: OperationGroupProps, re
         setGroupState({
             id: id,
             groupName: groupName ? groupName : '',
+            regionSettings: regionSettings ? regionSettings : defaultRegionSettings,
             domains: domains ? domains : undefined,
         });
     }, []);
@@ -41,7 +51,10 @@ export function OperationGroup({id, groupName, domains}: OperationGroupProps, re
             {
                 groupState.domains?.map((domain, index) => {
                     return (
-                        <OperationFlow key={`${id}${index}`} {...domain} {...regionConfigs} />
+                        <OperationFlow key={`${id}${index}`} 
+                            {...domain}
+                            regionSettings={regionSettings}
+                        />
                     );
                 })
             }

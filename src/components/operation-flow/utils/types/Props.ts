@@ -1,15 +1,24 @@
 //================================================================
 // Operation Group
-export type RegionProps = {
-    regionNum: number;
-    regionName: string;
-    regionDescription: string;
-    regionColor?: string | 'default' | undefined;
+export type Period = {
+    id: string;
+    num: number;
+    name: string;
+    description?: string;
+    duration: number;
 }
-export type ColumnRegionConfigs = RegionProps[];
+export type ColumnSettings = {
+    type: 'period' | 'calendar' | 'none',
+    minColumn: number,
+    maxColumn: number,
+    unit: 'day' | 'week' | 'month' | 'year',
+    periods?: Period[];
+    calendar?: any; // To be defined
+}
 
 export type DomainProp = {
     children?: string | JSX.Element | JSX.Element[];
+    regionSettings: ColumnSettings;
     operationLines: OperationLines;
     headText: string;
     tailText: string;
@@ -20,6 +29,7 @@ export type OperationGroupProps = {
     id: string;
     groupName?: string | undefined;
     domains: Domains;
+    regionSettings: ColumnSettings;
 };
 //================================================================
 // Operation Flow
