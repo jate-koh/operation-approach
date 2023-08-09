@@ -10,9 +10,9 @@ export function FlowTail({ text }: FlowTailProps) {
 
     return (
         <FlowShape text={text} 
-            shapeType='rectangle'
+            shapeType='rounded-rectangle'
             hasSolid={{enabled: true}} textClassName='text-black'
-            shrinkable={true} className='w-[256px] h-[128px]'
+            shrinkable={true} className='w-[150px] h-[64ßpx]'
         />
     );
 }

@@ -7,8 +7,8 @@ export type FlowShapeProps = {
 
     // Shape Properties
     shapeType?: string;
-    shapeWidth?: number; // in px
-    shapeHeight?: number; // in px
+    shapeWidth?: number; // in px (deprecated)
+    shapeHeight?: number; // in px (deprecated)
     hasSolid?: { // if shape has solid color
         enabled: boolean,
         class?: string
@@ -48,7 +48,7 @@ const defaultProperties = {
 
 export function FlowShape({ 
     children,
-    shapeType, shapeWidth, shapeHeight, shrinkable,
+    shapeType, shrinkable,
     hasSolid, hasBorder,
     isBold, isItalic, isUnderline, 
     className, textClassName,
@@ -62,11 +62,11 @@ export function FlowShape({
                 className ? className : '',
 
                 // Shape Type
-                matchInternalShape(shapeType ? shapeType : defaultProperties.shape),
+                matchInternalShape(shapeType ? shapeType : defaultProperties.shape, 'skip'),
 
-                // Shape Width and Height
-                shapeWidth ? `w-[${shapeWidth}px]` : defaultProperties.shapeWidth,
-                shapeHeight ? `h-[${shapeHeight}px]` : defaultProperties.shapeHeight,
+                // // Shape Width and Height
+                // shapeWidth ? `w-[${shapeWidth}px]` : defaultProperties.shapeWidth,
+                // shapeHeight ? `h-[${shapeHeight}px]` : defaultProperties.shapeHeight,
 
                 // Shape Shrinkable
                 shrinkable ? defaultProperties.shrink : 'flex-none',

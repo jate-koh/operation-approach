@@ -1,4 +1,0 @@
-effect = circle (E00?)
-decision point = triangle (D00?)
-task = (T)
-commander decision point = diamond ()
