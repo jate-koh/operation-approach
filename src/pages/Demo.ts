@@ -46,7 +46,17 @@ function checkDuplicateId(operationLines: OperationLines): boolean {
     }
     return false;
 }
-
+var bannedId: string[] = [
+    'D000',
+    'D001',
+    'D002',
+    'E001',
+    'E002',
+    'E003',
+    'E004',
+    'E005',
+];
+var usedIdStack: string[] = [];
 
 function generateLine(nodeLimit: number, lineLimit: number): OperationLines {
     let line: OperationLines = [];
@@ -64,13 +74,18 @@ function generateLine(nodeLimit: number, lineLimit: number): OperationLines {
         let elements: OperationList = [];
         for (let j = 0; j < elementCount; j++) {
             if ( nodeCounter >= nodeLimit) break;
-            let id = randomNodeId();
+            let id: string;
+            // console.log('Used ID Stack: ', usedIdStack);
+            do id = randomNodeId();
+            while (usedIdStack.includes(id) || bannedId.includes(id));
             elements.push({
                 region: 0,
                 sequence: Math.floor(Math.random() * (10 - 1 + 1) + 1),
                 id: id,
+                key: '_' + id,
                 shapeType: randomShape(),
             });
+            usedIdStack.push(id);
             nodeCounter++;
         }
         if ( nodeCounter >= nodeLimit) break;
@@ -84,6 +99,8 @@ function generateLine(nodeLimit: number, lineLimit: number): OperationLines {
 }
 
 export function generateProps(domainCount?: number, nodeLimit?: number,  lineLimit?: number): OperationGroupProps {
+    usedIdStack = []; // Reset the stack
+    
     let nodeLimiter: number = nodeLimit || 20;
     let lineLimiter: number = lineLimit || 4;
     let props: OperationGroupProps = {
@@ -95,9 +112,6 @@ export function generateProps(domainCount?: number, nodeLimit?: number,  lineLim
     let generatedDomains: Domains = [];
     let count = domainCount || Math.floor(Math.random() * (10 - 1 + 1) + 1);
     for (let i = 0; i < count; i++) {
-        let line: OperationLines;
-        do line = generateLine(nodeLimiter, lineLimiter);
-        while (!checkDuplicateId(line));
         generatedDomains.push({
             operationLines: generateLine(nodeLimiter, lineLimiter),
             headText: randomHeadText(),
